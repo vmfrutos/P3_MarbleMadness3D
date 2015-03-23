@@ -7,7 +7,7 @@ DIRHEA := include/
 CXX := g++
 
 # Flags de compilación -----------------------------------------------
-CXXFLAGS := -I $(DIRHEA) -Wall 
+CXXFLAGS := -I $(DIRHEA) -Wall -DLINUX -std=c++11
 CXXFLAGS += `pkg-config --cflags OGRE`
 CXXFLAGS += `pkg-config	--cflags OgreBullet` 
 CXXFLAGS += `pkg-config --cflags bullet`
