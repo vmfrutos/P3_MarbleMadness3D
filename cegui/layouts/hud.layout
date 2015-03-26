@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<GUILayout>
+    <Window Type="DefaultWindow" Name="Hud" >
+		<Property Name="UnifiedAreaRect" Value="{{0,0},{0.90,0},{1,0},{1,0}}" />
+        
+		<Window Type="TaharezLook/StaticImage" Name="Hud/Fondo" >
+			<Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{1,0}}" />
+			<Property Name="BackgroundEnabled" Value="False" /> 
+            <Property Name="FrameEnabled" Value="False" />        	
+           	<Window Type="TaharezLook/StaticImage" Name="Live1" >
+				<Property Name="UnifiedAreaRect" Value="{{0.0,0},{0.10,0},{0.05,0},{1,0}}" />
+				<Property Name="BackgroundEnabled" Value="False" /> 
+            	<Property Name="FrameEnabled" Value="False" />
+			</Window>
+			
+           	<Window Type="TaharezLook/StaticImage" Name="Live2" >
+				<Property Name="UnifiedAreaRect" Value="{{0.05,0},{0.10,0},{0.10,0},{1,0}}" />
+				<Property Name="BackgroundEnabled" Value="False" /> 
+            	<Property Name="FrameEnabled" Value="False" />
+			</Window>
+			
+           	<Window Type="TaharezLook/StaticImage" Name="Live3" >
+				<Property Name="UnifiedAreaRect" Value="{{0.10,0},{0.10,0},{0.15,0},{1,0}}" />
+				<Property Name="BackgroundEnabled" Value="False" /> 
+            	<Property Name="FrameEnabled" Value="False" />
+			</Window>	
+
+            
+		
+			<Window Type="TaharezLook/StaticImage" Name="TimeBox" >
+				<Property Name="UnifiedAreaRect" Value="{{0.20,0},{0.10,0},{0.35,0},{0.95,0}}" />
+				<Property Name="BackgroundEnabled" Value="False" /> 
+            	<Property Name="FrameEnabled" Value="False" />
+ 
+				<Window Type="TaharezLook/StaticText" Name="TimeText" >
+            		<Property Name="UnifiedAreaRect" Value="{{0.08,0},{0.40,0},{0.95,0},{0.92,0}}" />
+            		<Property Name="BackgroundEnabled" Value="False" /> 
+            		<Property Name="FrameEnabled" Value="False" />
+            		<Property Name="Font" Value="DejaVuSans-15" />
+            		<Property Name="HorzFormatting" Value="HorzCentred" />
+            		<Property Name="TextColours" Value="FFFF0000" />
+            		
+        		</Window>
+	       	
+			</Window> 
+			
+			<Window Type="TaharezLook/StaticImage" Name="LevelBox" >
+				<Property Name="UnifiedAreaRect" Value="{{0.38,0},{0.10,0},{0.53,0},{0.95,0}}" />
+				<Property Name="BackgroundEnabled" Value="False" /> 
+            	<Property Name="FrameEnabled" Value="False" />
+				<Window Type="TaharezLook/StaticText" Name="LevelText" >
+            		<Property Name="UnifiedAreaRect" Value="{{0.08,0},{0.40,0},{0.95,0},{0.92,0}}" />
+            		<Property Name="BackgroundEnabled" Value="False" /> 
+            		<Property Name="FrameEnabled" Value="False" />
+            		<Property Name="Font" Value="DejaVuSans-15" />
+            		<Property Name="HorzFormatting" Value="HorzCentred" />	
+            		<Property Name="TextColours" Value="FFFF0000" />
+        		</Window>
+			</Window> 
+			
+			
+			<Window Type="TaharezLook/StaticImage" Name="FpsBox" >
+				<Property Name="UnifiedAreaRect" Value="{{0.56,0},{0.10,0},{0.71,0},{0.95,0}}" />
+				<Property Name="BackgroundEnabled" Value="False" /> 
+            	<Property Name="FrameEnabled" Value="False" />
+				<Window Type="TaharezLook/StaticText" Name="FpsText" >
+            		<Property Name="UnifiedAreaRect" Value="{{0.15,0},{0.40,0},{0.81,0},{0.92,0}}" />
+            		<Property Name="BackgroundEnabled" Value="False" /> 
+            		<Property Name="FrameEnabled" Value="False" />
+            		<Property Name="Font" Value="DejaVuSans-15" />
+					<Property Name="TextColours" Value="FFFF0000" />            		
+            		<Property Name="HorzFormatting" Value="HorzCentred" />
+            	</Window>
+			</Window> 
+			
+			<Window Type="TaharezLook/StaticImage" Name="InfoBox" >
+				<Property Name="UnifiedAreaRect" Value="{{0.74,0},{0.10,0},{0.98,0},{0.95,0}}" />
+				<Property Name="BackgroundEnabled" Value="False" /> 
+            	<Property Name="FrameEnabled" Value="False" />
+				<Window Type="TaharezLook/StaticText" Name="InfoText" >
+            		<Property Name="UnifiedAreaRect" Value="{{0.08,0},{0.40,0},{0.95,0},{0.92,0}}" />
+            		<Property Name="BackgroundEnabled" Value="False" /> 
+            		<Property Name="FrameEnabled" Value="False" />
+            		<Property Name="Font" Value="DejaVuSans-8" />
+            		<Property Name="HorzFormatting" Value="HorzCentred" />	
+            		<Property Name="TextColours" Value="FFFF0000" />            		
+        		</Window>
+			</Window> 
+		
+		</Window>
+
+    </Window>
+</GUILayout>
