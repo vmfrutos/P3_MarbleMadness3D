@@ -9,20 +9,27 @@ CXX := g++
 # Flags de compilación -----------------------------------------------
 CXXFLAGS := -I $(DIRHEA) -Wall -DLINUX -std=c++11
 CXXFLAGS += `pkg-config --cflags OGRE`
+CXXFLAGS += `pkg-config --cflags OIS`
 CXXFLAGS += `pkg-config	--cflags OgreBullet` 
 CXXFLAGS += `pkg-config --cflags bullet`
+CXXFLAGS += `pkg-config --cflags CEGUI`
 
 # Flags del linker ---------------------------------------------------
 LDFLAGS += `pkg-config --libs-only-L OgreBullet`
 LDFLAGS += `pkg-config --libs-only-L bullet`
+LDFLAGS += `pkg-config --libs-only-L CEGUI`
+LDFLAGS += `pkg-config --libs-only-L CEGUI-OGRE`
 
 LDLIBS := `pkg-config --libs-only-l OGRE`
+LDLIBS += `pkg-config --libs-only-l OIS`
 LDLIBS += `pkg-config --libs-only-l OgreBullet`
 LDLIBS += `pkg-config --libs-only-l bullet`
-LDLIBS += -lOIS
+LDLIBS += `pkg-config --libs-only-l CEGUI`
+LDLIBS += `pkg-config --libs-only-l CEGUI-OGRE`
 LDLIBS += -lGL
 LDLIBS += -lstdc++
 LDLIBS += -lConvexDecomposition
+
 
 # Modo de compilación (-mode=release -mode=debug) --------------------
 ifeq ($(mode), release) 

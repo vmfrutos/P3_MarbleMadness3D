@@ -6,7 +6,8 @@
 #include <OgreSingleton.h>
 #include <OIS/OIS.h>
 #include "Properties.h"
-
+#include <CEGUI.h>
+#include <RendererModules/Ogre/CEGUIOgreRenderer.h>
 #include "InputManager.h"
 
 class GameState;
@@ -51,6 +52,8 @@ private:
 	bool mouseMoved (const OIS::MouseEvent &e);
 	bool mousePressed (const OIS::MouseEvent &e, OIS::MouseButtonID id);
 	bool mouseReleased (const OIS::MouseEvent &e, OIS::MouseButtonID id);
+
+	void initializeCEGUI();
 
 	// Gestor de eventos de entrada.
 	InputManager *_inputMgr;

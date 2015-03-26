@@ -136,6 +136,14 @@ GameManager::configure ()
 		return false;
 	}
 #endif
+#ifdef WIN32
+	if (!Properties::getSingletonPtr()->load("conf\\config.properties")) {
+		return false;
+	}
+#endif
+
+	// Se inicializa CEGUI
+	initializeCEGUI();
 
 	return true;
 }
@@ -208,4 +216,20 @@ GameManager::mouseReleased
 {
 	_states.top()->mouseReleased(e, id);
 	return true;
+}
+
+void
+GameManager::initializeCEGUI()
+{
+	  //CEGUI
+	  CEGUI::OgreRenderer::bootstrapSystem();
+	  CEGUI::Scheme::setDefaultResourceGroup("Schemes");
+	  CEGUI::Imageset::setDefaultResourceGroup("Imagesets");
+	  CEGUI::Font::setDefaultResourceGroup("Fonts");
+	  CEGUI::WindowManager::setDefaultResourceGroup("Layouts");
+	  CEGUI::WidgetLookManager::setDefaultResourceGroup("LookNFeel");
+
+	  CEGUI::SchemeManager::getSingleton().create("TaharezLook.scheme");
+	  CEGUI::System::getSingleton().setDefaultFont("DejaVuSans-10");
+	  CEGUI::System::getSingleton().setDefaultMouseCursor("TaharezLook","MouseArrow");
 }

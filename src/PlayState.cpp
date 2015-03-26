@@ -3,6 +3,29 @@
 
 template<> PlayState* Ogre::Singleton<PlayState>::msSingleton = 0;
 
+PlayState::PlayState() {
+	_root = 0;
+	_win = 0;
+	_sceneMgr = 0;
+	_viewport = 0;
+	_exitGame = false;
+	_currentLevel = 0;
+	_ball = 0;
+	_camera = 0;
+	_hud=0;
+
+	_currentLevelNumber = 1;
+
+	KEY_UP = false;
+	KEY_DOWN = false;
+	KEY_RIGHT = false;
+	KEY_LEFT = false;
+}
+
+PlayState::~PlayState() {
+
+}
+
 void
 PlayState::enter ()
 {
@@ -18,7 +41,10 @@ PlayState::enter ()
 
 	_viewport = _win->addViewport(_camera->getOgreCamera());
 	//_viewport->setBackgroundColour(Ogre::ColourValue(0.016, 0.454, 0.467));
-	_exitGame = false;
+
+
+	// Se inicializa el hud
+	_hud = new Hud(120);
 
 	// Se inicializan los valores de configuracion
 	initializeParamsConf();
@@ -62,6 +88,13 @@ PlayState::frameStarted
 {
 	Ogre::Real deltaT = evt.timeSinceLastFrame;
 	PhysicWorld::stepSimulation(deltaT);
+	float fps;
+
+	if (deltaT == 0.0) {
+		fps = 1000; // esto es por evitar división por 0 en equipos muy rápidos
+	} else {
+		fps = 1.0f / deltaT;
+	}
 
 	if (KEY_UP) {
 		Ogre::Vector3 direction(0,0,1);
@@ -85,6 +118,9 @@ PlayState::frameStarted
 
 	// Se actualiza la camara en función de la posición de la bola
 	_camera->updateCamera(_ball->getPosition());
+
+	// Se actualiza el hud
+	_hud->update(deltaT,fps);
 
 	return true;
 }
@@ -133,6 +169,14 @@ PlayState::keyPressed
 
 	if (e.key == OIS::KC_RIGHT) {
 		KEY_RIGHT = true;
+	}
+
+	if (e.key == OIS::KC_A) {
+			_hud->decreaseLive();
+	}
+
+	if (e.key == OIS::KC_S) {
+			_hud->setInfo("Mensaje de prueba largo, aqui se puede poner todo esto y mucho mas");
 	}
 }
 
@@ -204,6 +248,8 @@ PlayState::createScene(){
 
 		// Se instancia el nivel correspondiente
 		_currentLevel = new LevelOne("Plane.mesh","Level1");
+
+		_hud->setLevel(_currentLevelNumber);
 	}
 }
 
