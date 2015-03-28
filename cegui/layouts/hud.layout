@@ -34,10 +34,10 @@
             	<Property Name="FrameEnabled" Value="False" />
  
 				<Window Type="TaharezLook/StaticText" Name="TimeText" >
-            		<Property Name="UnifiedAreaRect" Value="{{0.08,0},{0.40,0},{0.95,0},{0.92,0}}" />
+            		<Property Name="UnifiedAreaRect" Value="{{0.05,0},{0.48,0},{0.95,0},{1,0}}" />
             		<Property Name="BackgroundEnabled" Value="False" /> 
             		<Property Name="FrameEnabled" Value="False" />
-            		<Property Name="Font" Value="DejaVuSans-15" />
+            		<Property Name="Font" Value="SFPixelateShaded-20" />
             		<Property Name="HorzFormatting" Value="HorzCentred" />
             		<Property Name="TextColours" Value="FFFF0000" />
             		
@@ -50,10 +50,10 @@
 				<Property Name="BackgroundEnabled" Value="False" /> 
             	<Property Name="FrameEnabled" Value="False" />
 				<Window Type="TaharezLook/StaticText" Name="LevelText" >
-            		<Property Name="UnifiedAreaRect" Value="{{0.08,0},{0.40,0},{0.95,0},{0.92,0}}" />
+            		<Property Name="UnifiedAreaRect" Value="{{0.05,0},{0.48,0},{0.95,0},{1,0}}" />
             		<Property Name="BackgroundEnabled" Value="False" /> 
             		<Property Name="FrameEnabled" Value="False" />
-            		<Property Name="Font" Value="DejaVuSans-15" />
+            		<Property Name="Font" Value="SFPixelateShaded-20" />
             		<Property Name="HorzFormatting" Value="HorzCentred" />	
             		<Property Name="TextColours" Value="FFFF0000" />
         		</Window>
@@ -65,10 +65,10 @@
 				<Property Name="BackgroundEnabled" Value="False" /> 
             	<Property Name="FrameEnabled" Value="False" />
 				<Window Type="TaharezLook/StaticText" Name="FpsText" >
-            		<Property Name="UnifiedAreaRect" Value="{{0.15,0},{0.40,0},{0.81,0},{0.92,0}}" />
+            		<Property Name="UnifiedAreaRect" Value="{{0.05,0},{0.48,0},{0.95,0},{1,0}}" />
             		<Property Name="BackgroundEnabled" Value="False" /> 
             		<Property Name="FrameEnabled" Value="False" />
-            		<Property Name="Font" Value="DejaVuSans-15" />
+            		<Property Name="Font" Value="SFPixelateShaded-20" />
 					<Property Name="TextColours" Value="FFFF0000" />            		
             		<Property Name="HorzFormatting" Value="HorzCentred" />
             	</Window>
@@ -79,11 +79,12 @@
 				<Property Name="BackgroundEnabled" Value="False" /> 
             	<Property Name="FrameEnabled" Value="False" />
 				<Window Type="TaharezLook/StaticText" Name="InfoText" >
-            		<Property Name="UnifiedAreaRect" Value="{{0.08,0},{0.40,0},{0.95,0},{0.92,0}}" />
+            		<Property Name="UnifiedAreaRect" Value="{{0.04,0},{0.04,0},{0.96,0},{0.96,0}}" />
             		<Property Name="BackgroundEnabled" Value="False" /> 
             		<Property Name="FrameEnabled" Value="False" />
-            		<Property Name="Font" Value="DejaVuSans-8" />
-            		<Property Name="HorzFormatting" Value="HorzCentred" />	
+            		<Property Name="Font" Value="DejaVuSans-5" />
+            		<Property Name="HorzFormatting" Value="WordWrapJustified" />
+					<Property Name="VertFormatting" Value="TopAligned" />	            		
             		<Property Name="TextColours" Value="FFFF0000" />            		
         		</Window>
 			</Window> 

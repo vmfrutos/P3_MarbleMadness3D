@@ -1,11 +1,19 @@
 <?xml version="1.0" ?>
 <GUIScheme Name="TaharezLook">
 	<Imageset Filename="TaharezLook.imageset" />
-	<Font Filename="DejaVuSans-8.font" />
+	<Font Filename="DejaVuSans-5.font" />
 	<Font Filename="DejaVuSans-10.font" />
 	<Font Filename="DejaVuSans-15.font" />
 	<Font Filename="DejaVuSans-30.font" />
 	<Font Filename="Batang-26.font" />
+	<Font Filename="BlackTies-5.font" />
+	<Font Filename="BlackTies-10.font" />
+	<Font Filename="BlackTies-20.font" />
+	<Font Filename="BlackTies-35.font" />
+	<Font Filename="charlie_dotted-35.font" />
+	<Font Filename="charlie_dotted-30.font" />
+	<Font Filename="armybeans-35.font" />
+	<Font Filename="SFPixelateShaded-20.font" />
 	<LookNFeel Filename="TaharezLook.looknfeel" />
 	<WindowRendererSet Filename="CEGUIFalagardWRBase" />
 	<FalagardMapping WindowType="TaharezLook/Button"      TargetType="CEGUI/PushButton"  Renderer="Falagard/Button"       LookNFeel="TaharezLook/Button" />
