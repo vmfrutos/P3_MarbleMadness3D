@@ -12,7 +12,13 @@ public:
 	virtual ~Level();
 
 	virtual void initializeLevel(const string& groundMesh, const string& groundName) = 0;
+	virtual void setLight() = 0;
 	virtual int getLevelNumber() = 0;
+	virtual bool isEndOfLive(SceneNode* ball) = 0;
+	virtual Vector3 getInitPositionBall() = 0;
+	virtual float getTimeToComplete() = 0;
+
+
 
 protected:
 
@@ -23,6 +29,8 @@ protected:
 	float _restitution;
 	float _friction;
 	float _mass;
+
+
 
 private:
 	void initializeParamsConf();

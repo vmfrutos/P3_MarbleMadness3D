@@ -1,6 +1,6 @@
 #include "Hud.h"
 
-Hud::Hud(float time):_contador(time){
+Hud::Hud(){
 	_numLives = 3;
 	_sheet = 0;
 	_hud = 0;
@@ -90,7 +90,23 @@ Hud::setInfo(const string& info){
 	_hud->getChild("Hud/Fondo")->getChild("InfoBox")->getChild("InfoText")->setText(info);
 }
 
+void
+Hud::addInfo(const string& info){
+	const CEGUI::String currentInfo = _hud->getChild("Hud/Fondo")->getChild("InfoBox")->getChild("InfoText")->getText();
+	_hud->getChild("Hud/Fondo")->getChild("InfoBox")->getChild("InfoText")->setText(currentInfo + "\n" + info);
+}
+
 int
 Hud::getNumLives(){
 	return _numLives;
 }
+
+void Hud::resetTime(float time){
+	_contador.reset(time);
+	_timeText->setText(_contador.getContadorMinSecStr());
+}
+
+float Hud::getCurrentTime(){
+	return _contador.getSegundosTranscurridos();
+}
+

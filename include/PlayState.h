@@ -44,6 +44,7 @@ private:
 
 
 	bool _exitGame;
+	int _state;
 
 	int _currentLevelNumber;
 	Level* _currentLevel;
@@ -54,6 +55,8 @@ private:
 	void createScene();
 	void initializeParamsConf();
 	void printConf();
+	void gameEnd();
+	void reset();
 
 
 	// Teclas pulsadas
@@ -61,6 +64,13 @@ private:
 	bool KEY_DOWN;
 	bool KEY_RIGHT;
 	bool KEY_LEFT;
+
+	// Estados
+	static const int STATE_PLAYING = 0;
+	static const int STATE_SHOW_LEVEL = 1;
+	static const int STATE_END = 2;
+	static const int STATE_PAUSE = 3;
+	static const int STATE_SET_RECORD = 4;
 
 };
 

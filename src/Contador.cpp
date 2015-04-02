@@ -52,6 +52,20 @@ int Contador::getSegundos(){
 
 void Contador::reset(){
 	_segundosTranscurridos = 0;
+	_horas = _segundosTranscurridos/3600;
+
+	long minutosrestantes = static_cast<long>(_segundosTranscurridos)%3600;
+	_minutos = minutosrestantes/60;
+	_segundos = minutosrestantes%60;
+}
+
+void Contador::reset(Ogre::Real segundos){
+	_segundosTranscurridos = segundos;
+	_horas = _segundosTranscurridos/3600;
+
+	long minutosrestantes = static_cast<long>(_segundosTranscurridos)%3600;
+	_minutos = minutosrestantes/60;
+	_segundos = minutosrestantes%60;
 }
 
 Ogre::Real Contador::getSegundosTranscurridos(){

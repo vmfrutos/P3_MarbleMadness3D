@@ -13,7 +13,7 @@ PlayState::PlayState() {
 	_ball = 0;
 	_camera = 0;
 	_hud=0;
-
+	_state = STATE_PLAYING;
 	_currentLevelNumber = 1;
 
 	KEY_UP = false;
@@ -36,15 +36,13 @@ PlayState::enter ()
 
 	// Se define una camara
 	_camera = new ::Camera(_sceneMgr);
-	//_camera->setPosition(Ogre::Vector3(-20,13,20));
-	//_camera->lookAt(Ogre::Vector3(0,5.85,0));
 
 	_viewport = _win->addViewport(_camera->getOgreCamera());
-	//_viewport->setBackgroundColour(Ogre::ColourValue(0.016, 0.454, 0.467));
+	_viewport->setBackgroundColour(Ogre::ColourValue(0.016, 0.454, 0.467));
 
 
 	// Se inicializa el hud
-	_hud = new Hud(120);
+	_hud = new Hud();
 
 	// Se inicializan los valores de configuracion
 	initializeParamsConf();
@@ -90,37 +88,55 @@ PlayState::frameStarted
 	PhysicWorld::stepSimulation(deltaT);
 	float fps;
 
+
 	if (deltaT == 0.0) {
 		fps = 1000; // esto es por evitar división por 0 en equipos muy rápidos
 	} else {
 		fps = 1.0f / deltaT;
 	}
 
-	if (KEY_UP) {
-		Ogre::Vector3 direction(0,0,1);
-		_ball->applyImpulse(direction,deltaT);
+	if (_state == STATE_PLAYING) {
+
+		if (KEY_UP) {
+			Ogre::Vector3 direction(0,0,1);
+			_ball->applyImpulse(direction,deltaT);
+		}
+
+		if (KEY_DOWN) {
+			Ogre::Vector3 direction(0,0,-1);
+			_ball->applyImpulse(direction,deltaT);
+		}
+
+		if (KEY_LEFT) {
+			Ogre::Vector3 direction(1,0,0);
+			_ball->applyImpulse(direction,deltaT);
+		}
+
+		if (KEY_RIGHT) {
+			Ogre::Vector3 direction(-1,0,0);
+			_ball->applyImpulse(direction,deltaT);
+		}
+
+		// Se le consulta al nivel actual si se ha producido algun evento que mate a la bola
+		if (_currentLevel->isEndOfLive(_ball->getSceneNode()))
+			_state = STATE_END;
+
+		// Se consulta si ha terminado el tiempo
+		cout << "Segundos restantes: " <<_hud->getCurrentTime() << endl;
+		if (_hud->getCurrentTime() <= 0){
+			_state = STATE_END;
+		}
+
+
+		// Se actualiza la camara en función de la posición de la bola
+		_camera->updateCamera(_ball->getPosition());
+
+		// Se actualiza el hud
+		_hud->update(deltaT,fps);
+
+	} else if (_state == STATE_END) {
+		gameEnd();
 	}
-
-	if (KEY_DOWN) {
-		Ogre::Vector3 direction(0,0,-1);
-		_ball->applyImpulse(direction,deltaT);
-	}
-
-	if (KEY_LEFT) {
-		Ogre::Vector3 direction(1,0,0);
-		_ball->applyImpulse(direction,deltaT);
-	}
-
-	if (KEY_RIGHT) {
-		Ogre::Vector3 direction(-1,0,0);
-		_ball->applyImpulse(direction,deltaT);
-	}
-
-	// Se actualiza la camara en función de la posición de la bola
-	_camera->updateCamera(_ball->getPosition());
-
-	// Se actualiza el hud
-	_hud->update(deltaT,fps);
 
 	return true;
 }
@@ -142,6 +158,7 @@ void
 PlayState::keyPressed
 (const OIS::KeyEvent &e)
 {
+
 	// Tecla p --> PauseState.
 	if (e.key == OIS::KC_P) {
 		pushState(PauseState::getSingletonPtr());
@@ -172,12 +189,14 @@ PlayState::keyPressed
 	}
 
 	if (e.key == OIS::KC_A) {
-			_hud->decreaseLive();
+		_hud->decreaseLive();
 	}
 
 	if (e.key == OIS::KC_S) {
-			_hud->setInfo("Mensaje de prueba largo, aqui se puede poner todo esto y mucho mas");
+		_hud->setInfo("Mensaje de prueba largo, aqui se puede poner todo esto y mucho mas");
 	}
+
+
 }
 
 void
@@ -239,18 +258,17 @@ PlayState::getSingleton ()
 void
 PlayState::createScene(){
 
-
 	// En función del nivel se crea la bola y el terreno
 	if (_currentLevelNumber == 1) {
 
-		// Se instancia la bola
-		_ball = new Ball("Sphere.mesh","Ball",Vector3(-40.43,16.91,90.88));
-
 		// Se instancia el nivel correspondiente
-		_currentLevel = new LevelOne("Plane.mesh","Level1");
-
-		_hud->setLevel(_currentLevelNumber);
+		_currentLevel = new LevelOne("Level1.mesh","Level1");
 	}
+
+	// Se instancia la bola
+	_ball = new Ball("Sphere.mesh","Ball",_currentLevel->getInitPositionBall());
+	_hud->setLevel(_currentLevelNumber);
+	_hud->resetTime(_currentLevel->getTimeToComplete());
 }
 
 void
@@ -263,4 +281,28 @@ PlayState::printConf(){
 	Ogre::LogManager::getSingletonPtr()->logMessage("************ PlayState ***************");
 	Ogre::LogManager::getSingletonPtr()->logMessage("game.startLevel: " + StringConverter::toString(_currentLevelNumber));
 	Ogre::LogManager::getSingletonPtr()->logMessage("***************************************");
+}
+
+void
+PlayState::gameEnd(){
+
+	// Se decrementa una vida. Si la vida es la ultima (endGame == true)
+	bool endGame = _hud->decreaseLive();
+	if (endGame){
+		// Se han acabado las vidas
+
+	} else {
+		reset();
+		_state = STATE_PLAYING;
+	}
+
+}
+
+void
+PlayState::reset(){
+	_ball->resetBall(_currentLevel->getInitPositionBall());
+	_camera->updateCamera(_ball->getPosition());
+	_hud->setLevel(_currentLevelNumber);
+	_hud->resetTime(_currentLevel->getTimeToComplete());
+
 }

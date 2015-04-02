@@ -4,6 +4,7 @@
 
 
 Level::Level():PhysicWorld(){
+
 	initializeParamsConf();
 	printConf();
 }
@@ -14,7 +15,7 @@ Level::~Level(){
 
 void
 Level::addGround(const string& groundMesh, const string& groundName) {
-	// Creacion de la entidad y del SceneNode del plano ------------------------
+	// Creacion de la entidad y del SceneNode del plano
 	SceneNode* PlanoNode = _sceneManager->createSceneNode(groundName);
 	Entity* PlanoEnt = _sceneManager->createEntity(groundName, groundMesh);
 	PlanoEnt->setCastShadows(false);
@@ -33,7 +34,7 @@ Level::addGround(const string& groundMesh, const string& groundName) {
 	//OgreBulletCollisions::ConvexHullCollisionShape *groundConvex = trimeshConverter->createConvex();
 
 	// Se crea el rigbody
-	OgreBulletDynamics::RigidBody *rigidPlane = new OgreBulletDynamics::RigidBody("suelo", _world);
+	OgreBulletDynamics::RigidBody *rigidPlane = new OgreBulletDynamics::RigidBody(groundName, _world);
 	rigidPlane->setShape(PlanoNode, groundTrimesh, _restitution, _friction, _mass, Vector3::ZERO, Quaternion::IDENTITY);
 	delete trimeshConverter;
 

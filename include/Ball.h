@@ -9,12 +9,15 @@ public:
 	~Ball();
 	void applyImpulse(Vector3 direction, float delta);
 	const Vector3& getPosition();
+	SceneNode* getSceneNode(){return _ballNode;};
+	void resetBall(Vector3 pos);
 
 private:
 
 	SceneNode* _ballNode;
 	Entity* _ballEnt;
 	OgreBulletDynamics::RigidBody *_rigidBall;
+	OgreBulletCollisions::SphereCollisionShape * _ballShape;
 
 	// Parametros configurables
 	float _restitution;
@@ -27,6 +30,7 @@ private:
 	void initializeParamsConf();
 	void printConf();
 	void initializeBall(const string& ballMesh, const string& ballName, Vector3 initPos);
+
 
 
 

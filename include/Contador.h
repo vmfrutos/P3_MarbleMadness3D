@@ -19,6 +19,7 @@ public:
 	string getContadorStr();
 	string getContadorMinSecStr();
 	void reset();
+	void reset(Ogre::Real segundos);
 	Ogre::Real getSegundosTranscurridos();
 
 private:

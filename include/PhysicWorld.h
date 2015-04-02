@@ -14,6 +14,7 @@
 #include "OgreBulletDynamicsWorld.h"
 #include "OgreBulletDynamicsRigidBody.h"
 #include "Debug/OgreBulletCollisionsDebugDrawer.h"
+#include <BulletCollision/btBulletCollisionCommon.h>
 
 #include "Properties.h"
 #include "PhysicWorld.h"

@@ -6,14 +6,17 @@
 
 class Hud {
 public:
-	Hud(float time);
+	Hud();
 	~Hud();
 
 	void update(float delta, float fps);
+	void resetTime(float time);
 	bool decreaseLive();
 	void setLevel(int level);
 	void setInfo(const string& msg);
+	void addInfo(const string& msg);
 	int getNumLives();
+	float getCurrentTime();
 
 
 private:

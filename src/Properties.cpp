@@ -86,11 +86,11 @@ Properties::getPropertyVector(string property) {
 	std::size_t found = value.find(",");
 	if (found != std::string::	npos){
 		// Se ha encontrado la ,
-		x = Ogre::StringConverter::parseInt(value.substr(0,found));
+		x = Ogre::StringConverter::parseReal(value.substr(0,found));
 		std::size_t found2 = value.find(",",found+1);
 		if (found2 != std::string::	npos){
-			y = Ogre::StringConverter::parseInt(value.substr(found+1,found2));
-			z = Ogre::StringConverter::parseInt(value.substr(found2+1));
+			y = Ogre::StringConverter::parseReal(value.substr(found+1,found2));
+			z = Ogre::StringConverter::parseReal(value.substr(found2+1));
 
 		}
 	}
