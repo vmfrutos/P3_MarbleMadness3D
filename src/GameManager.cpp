@@ -8,6 +8,9 @@ template<> GameManager* Ogre::Singleton<GameManager>::msSingleton = 0;
 GameManager::GameManager ()
 {
 	_root = 0;
+	_inputMgr = 0;
+	_renderWindow = 0;
+	_sceneManager = 0;
 }
 
 GameManager::~GameManager ()
@@ -54,32 +57,44 @@ void
 GameManager::changeState
 (GameState* state)
 {
+
 	// Limpieza del estado actual.
 	if (!_states.empty()) {
+
+
 		// exit() sobre el último estado.
 		_states.top()->exit();
 		// Elimina el último estado.
+
 		_states.pop();
+
 	}
 
 	// Transición al nuevo estado.
 	_states.push(state);
 	// enter() sobre el nuevo estado.
+
 	_states.top()->enter();
+
 }
 
 void
 GameManager::pushState
 (GameState* state)
 {
+
 	// Pausa del estado actual.
-	if (!_states.empty())
+	if (!_states.empty()){
+
 		_states.top()->pause();
+	}
 
 	// Transición al nuevo estado.
 	_states.push(state);
 	// enter() sobre el nuevo estado.
+
 	_states.top()->enter();
+
 }
 
 void
@@ -94,6 +109,7 @@ GameManager::popState ()
 	// Vuelta al estado anterior.
 	if (!_states.empty())
 		_states.top()->resume();
+
 }
 
 void
@@ -129,21 +145,13 @@ GameManager::configure ()
 
 	Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
 
-	// Se inicializa la clase Properties que tiene los parámetros de configuración
-	new Properties;
-#ifdef LINUX
-	if (!Properties::getSingletonPtr()->load("conf/config.properties")) {
-		return false;
-	}
-#endif
-#ifdef WIN32
-	if (!Properties::getSingletonPtr()->load("conf\\config.properties")) {
-		return false;
-	}
-#endif
+
 
 	// Se inicializa CEGUI
-	initializeCEGUI();
+	//initializeCEGUI();
+	CeguiManager::initialize();
+
+
 
 	return true;
 }
@@ -219,17 +227,22 @@ GameManager::mouseReleased
 }
 
 void
-GameManager::initializeCEGUI()
-{
-	  //CEGUI
-	  CEGUI::OgreRenderer::bootstrapSystem();
-	  CEGUI::Scheme::setDefaultResourceGroup("Schemes");
-	  CEGUI::Imageset::setDefaultResourceGroup("Imagesets");
-	  CEGUI::Font::setDefaultResourceGroup("Fonts");
-	  CEGUI::WindowManager::setDefaultResourceGroup("Layouts");
-	  CEGUI::WidgetLookManager::setDefaultResourceGroup("LookNFeel");
+GameManager::initializeCEGUI(){
+	CEGUI::OgreRenderer::bootstrapSystem();
 
-	  CEGUI::SchemeManager::getSingleton().create("TaharezLook.scheme");
-	  CEGUI::System::getSingleton().setDefaultFont("DejaVuSans-10");
-	  CEGUI::System::getSingleton().setDefaultMouseCursor("TaharezLook","MouseArrow");
+
+	CEGUI::Scheme::setDefaultResourceGroup("Schemes");
+	CEGUI::Imageset::setDefaultResourceGroup("Imagesets");
+	CEGUI::Font::setDefaultResourceGroup("Fonts");
+	CEGUI::WindowManager::setDefaultResourceGroup("Layouts");
+	CEGUI::WidgetLookManager::setDefaultResourceGroup("LookNFeel");
+
+	CEGUI::SchemeManager::getSingleton().create("TaharezLook.scheme");
+	CEGUI::System::getSingleton().setDefaultFont("DejaVuSans-10");
+	CEGUI::System::getSingleton().setDefaultMouseCursor("TaharezLook","MouseArrow");
+	CEGUI::MouseCursor::getSingleton().hide();
+
+
 }
+
+

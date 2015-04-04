@@ -1,17 +1,17 @@
-#include "LevelOne.h"
+#include "LevelTwo.h"
 
-LevelOne::LevelOne(const string& groundMesh, const string& groundName): Level(){
+LevelTwo::LevelTwo(const string& groundMesh, const string& groundName): Level(){
 	initializeParamsConf();
 	printConf();
 	initializeLevel(groundMesh,groundName);
 }
 
-LevelOne::~LevelOne(){
+LevelTwo::~LevelTwo(){
 
 }
 
 void
-LevelOne::initializeLevel(const string& levelMesh, const string& levelName){
+LevelTwo::initializeLevel(const string& levelMesh, const string& levelName){
 
 	// Se ponen las luces
 	setLight();
@@ -29,12 +29,12 @@ LevelOne::initializeLevel(const string& levelMesh, const string& levelName){
 }
 
 int
-LevelOne::getLevelNumber() {
-	return 1;
+LevelTwo::getLevelNumber() {
+	return 2;
 }
 
 void
-LevelOne::setLight(){
+LevelTwo::setLight(){
 	Ogre::Light* light = _sceneManager->createLight("Light1");
 	light->setDirection(Ogre::Vector3(0.0,80.0,0.0));
 	light->setPosition(0,0,0);
@@ -53,7 +53,7 @@ LevelOne::setLight(){
 
 
 bool
-LevelOne::isEndOfLive(SceneNode* ball){
+LevelTwo::isEndOfLive(SceneNode* ball){
 
 	// Se comprueba si la bola colisiona con la lava o con el suelo
 	if (colisionNodes(ball,_lavaNode) || colisionNodes(ball,_groundNode)) {
@@ -64,7 +64,7 @@ LevelOne::isEndOfLive(SceneNode* ball){
 }
 
 bool
-LevelOne::isLevelCompleted(SceneNode* ball){
+LevelTwo::isLevelCompleted(SceneNode* ball){
 	// Se comprueba si la bola colisiona con el plano Goal
 	if (colisionNodes(ball,_goalNode)) {
 		// Se cambia el color de las letras del plano Goal
@@ -76,15 +76,15 @@ LevelOne::isLevelCompleted(SceneNode* ball){
 }
 
 void
-LevelOne::initializeParamsConf() {
-	_initPositionBall = Properties::getSingletonPtr()->getPropertyVector("level1.ballPosition");
-	_timeToComplete = Properties::getSingletonPtr()->getPropertyFloat("level1.timeToComplete");
+LevelTwo::initializeParamsConf() {
+	_initPositionBall = Properties::getSingletonPtr()->getPropertyVector("level2.ballPosition");
+	_timeToComplete = Properties::getSingletonPtr()->getPropertyFloat("level2.timeToComplete");
 }
 
 void
-LevelOne::printConf() {
+LevelTwo::printConf() {
 	Ogre::LogManager::getSingletonPtr()->logMessage("************** Level *****************");
-	Ogre::LogManager::getSingletonPtr()->logMessage("level1.ballPosition: " + StringConverter::toString(_initPositionBall));
-	Ogre::LogManager::getSingletonPtr()->logMessage("level1.timeToComplete: " + StringConverter::toString(_timeToComplete));
+	Ogre::LogManager::getSingletonPtr()->logMessage("level2.ballPosition: " + StringConverter::toString(_initPositionBall));
+	Ogre::LogManager::getSingletonPtr()->logMessage("level2.timeToComplete: " + StringConverter::toString(_timeToComplete));
 	Ogre::LogManager::getSingletonPtr()->logMessage("***************************************");
 }

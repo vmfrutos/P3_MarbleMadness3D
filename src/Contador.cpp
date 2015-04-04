@@ -2,6 +2,7 @@
 
 Contador::Contador() {
 	_segundosTranscurridos = 0;
+	_valorInicial = _segundosTranscurridos;
 	_horas = 0;
 	_minutos = 0;
 	_segundos = 0;
@@ -9,6 +10,7 @@ Contador::Contador() {
 
 Contador::Contador(Ogre::Real segundos) {
 	_segundosTranscurridos = segundos;
+	_valorInicial = _segundosTranscurridos;
 	_horas = _segundosTranscurridos/3600;
 
 	long minutosrestantes = static_cast<long>(_segundosTranscurridos)%3600;
@@ -52,6 +54,7 @@ int Contador::getSegundos(){
 
 void Contador::reset(){
 	_segundosTranscurridos = 0;
+	_valorInicial = _segundosTranscurridos;
 	_horas = _segundosTranscurridos/3600;
 
 	long minutosrestantes = static_cast<long>(_segundosTranscurridos)%3600;
@@ -61,6 +64,7 @@ void Contador::reset(){
 
 void Contador::reset(Ogre::Real segundos){
 	_segundosTranscurridos = segundos;
+	_valorInicial = _segundosTranscurridos;
 	_horas = _segundosTranscurridos/3600;
 
 	long minutosrestantes = static_cast<long>(_segundosTranscurridos)%3600;

@@ -23,6 +23,7 @@ using namespace Ogre;
 class PhysicWorld {
 
 public:
+	PhysicWorld(SceneManager* sceneManager);
 	PhysicWorld();
 	virtual ~PhysicWorld();
 public:
@@ -39,15 +40,17 @@ public:
 	// Gestor de escena
 	static SceneManager * _sceneManager;
 
-	static void initializeWorld(SceneManager* sceneManager);
-	static void showDebugShapes(bool value);
-	static void stepSimulation(float elapsedTime, int maxSubSteps = 1);
+	void initializeWorld(SceneManager* sceneManager);
+	void finalizeWorld();
+	void deleteDeques();
+	void showDebugShapes(bool value);
+	void stepSimulation(float elapsedTime, int maxSubSteps = 1);
 
 private:
 	static float _gravity;
 	static Vector3 _wordlBounds;
 	static bool _setDebugDrawer;
-	static void initializeParamsConf();
-	static void printConf();
+	void initializeParamsConf();
+	void printConf();
 };
 #endif

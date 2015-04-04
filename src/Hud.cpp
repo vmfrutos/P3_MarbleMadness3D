@@ -2,23 +2,52 @@
 
 Hud::Hud(){
 	_numLives = 3;
-	_sheet = 0;
 	_hud = 0;
 
 	initialize();
+
+	_startAlertTime = Properties::getSingletonPtr()->getPropertyInt("game.startAlertTime");
 }
 Hud::~Hud(){
-	if (_hud) _hud->destroy();
-	if (_sheet) _sheet->destroy();
+
+	cout << "PlayState::~Hud() 01" << endl;
+
+	if (_timeText) {
+		//CeguiManager::getSheet()->removeChildWindow(_timeText);
+		cout << "PlayState::~Hud() 02" << endl;
+		_timeText->destroy();
+		cout << "PlayState::~Hud() 03" << endl;
+		_timeText = NULL;
+		cout << "PlayState::~Hud() 04" << endl;
+	}
+	if (_fpsText) {
+		//CeguiManager::getSheet()->removeChildWindow(_fpsText);
+		cout << "PlayState::~Hud() 05" << endl;
+		_fpsText->destroy();
+		cout << "PlayState::~Hud() 06" << endl;
+		_fpsText = NULL;
+		cout << "PlayState::~Hud() 07" << endl;
+	}
+	if (_hud) {
+		//CeguiManager::getSheet()->removeChildWindow(_hud);
+		cout << "PlayState::~Hud() 08" << endl;
+		_hud->destroy();
+		cout << "PlayState::~Hud() 09" << endl;
+		_hud = NULL;
+		cout << "PlayState::~Hud() 10" << endl;
+	}
 }
 
 void Hud::initialize(){
-	// Se inicializa el layout de CEGUI
-	//Sheet
-	_sheet = CEGUI::WindowManager::getSingleton().createWindow("DefaultWindow","Sheet");
 
-	//Config Window
+	CEGUI::Window* _sheet = CeguiManager::getSheet();
+
+	//_sheet = CEGUI::WindowManager::getSingletonPtr()->createWindow("DefaultWindow","SheetHud");
+	//CEGUI::System::getSingleton().setGUISheet(_sheet);
+
+	// Se crea el layout
 	_hud  = CEGUI::WindowManager::getSingleton().loadWindowLayout("hud.layout");
+
 
 
 	// Se crean los ImageSet
@@ -42,11 +71,6 @@ void Hud::initialize(){
 
 
 	_sheet->addChildWindow(_hud);
-	CEGUI::System::getSingleton().setGUISheet(_sheet);
-
-
-
-	CEGUI::MouseCursor::getSingleton().hide();
 
 	_timeText =_hud->getChild("Hud/Fondo")->getChild("TimeBox")->getChild("TimeText");
 	_fpsText =_hud->getChild("Hud/Fondo")->getChild("FpsBox")->getChild("FpsText");
@@ -55,6 +79,18 @@ void Hud::initialize(){
 
 void Hud::update(float delta, float fps){
 	_contador.decrementar(delta);
+	int currentSecond = (int)_contador.getSegundosTranscurridos();
+
+	// Se establece a verde el color del contador
+	_timeText->setProperty("TextColours","FF00FF00");
+	if (currentSecond <= _startAlertTime){
+		// si es impar se pone rojo el color del contador
+		if (currentSecond % 2 != 0) {
+			_timeText->setProperty("TextColours","FFFF0000");
+		}
+
+		// Sonido de alarma
+	}
 	_timeText->setText(_contador.getContadorMinSecStr());
 	_fpsText->setText(Ogre::StringConverter::toString(fps));
 }
@@ -108,5 +144,10 @@ void Hud::resetTime(float time){
 
 float Hud::getCurrentTime(){
 	return _contador.getSegundosTranscurridos();
+}
+
+int
+Hud::getElapsedTime(){
+	return _contador.getValorInicial() - (int) _contador.getSegundosTranscurridos();
 }
 

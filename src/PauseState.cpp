@@ -94,3 +94,8 @@ PauseState::getSingleton ()
   assert(msSingleton);
   return *msSingleton;
 }
+
+string
+PauseState::getName (){
+	return "PauseState";
+}

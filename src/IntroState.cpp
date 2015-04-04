@@ -100,3 +100,8 @@ IntroState::getSingleton ()
   assert(msSingleton);
   return *msSingleton;
 }
+
+string IntroState::getName (){
+	return "IntroState";
+
+}

@@ -9,6 +9,8 @@
 #include <CEGUI.h>
 #include <RendererModules/Ogre/CEGUIOgreRenderer.h>
 #include "InputManager.h"
+#include "ModalWindow.h"
+#include "CeguiManager.h"
 
 class GameState;
 
@@ -54,6 +56,7 @@ private:
 	bool mouseReleased (const OIS::MouseEvent &e, OIS::MouseButtonID id);
 
 	void initializeCEGUI();
+
 
 	// Gestor de eventos de entrada.
 	InputManager *_inputMgr;

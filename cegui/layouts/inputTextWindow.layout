@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<GUILayout>
+    <Window Type="DefaultWindow" Name="InputTextWindow" >
+		<Property Name="UnifiedAreaRect" Value="{{0.2,0},{0.2,0},{0.8,0},{0.8,0}}" />
+        
+		<Window Type="TaharezLook/StaticImage" Name="InputTextWindow/Fondo" >
+			<Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{1,0}}" />
+			<Property Name="BackgroundEnabled" Value="False" /> 
+            <Property Name="FrameEnabled" Value="False" />        	
+			<Window Type="TaharezLook/StaticText" Name="Text" >
+            	<Property Name="UnifiedAreaRect" Value="{{0.04,0},{0.04,0},{0.96,0},{0.50,0}}" />
+            	<Property Name="BackgroundEnabled" Value="False" /> 
+            	<Property Name="FrameEnabled" Value="False" />
+            	<Property Name="Font" Value="BlackTies-45" />
+            	<Property Name="HorzFormatting" Value="WordWrapCentred" />
+				<Property Name="VertFormatting" Value="VertCentred" />	            		
+            	<Property Name="TextColours" Value="FF000000" />
+	       	</Window>
+	       	
+			<Window Type="TaharezLook/Editbox" Name="NameEdit" >
+				<Property Name="UnifiedAreaRect" Value="{{0.30,0},{0.52,0},{0.70,0},{0.62,0}}" />
+            	<Property Name="Font" Value="DejaVuSans-15" />
+				<Property Name="Text" Value="" />            
+			</Window>
+			
+			        
+			<Window Type="TaharezLook/Button" Name="Buton" >
+            	<Property Name="UnifiedAreaRect" Value="{{0.30,0},{0.64,0},{0.70,0},{0.74,0}}" />
+            	<Property Name="Text" Value="Continue" />
+        
+        </Window>
+		</Window>
+
+    </Window>
+</GUILayout>

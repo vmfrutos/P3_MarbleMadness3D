@@ -12,41 +12,37 @@ template<> float PhysicWorld::_gravity;
 template<> Vector3 PhysicWorld::_wordlBounds;
 template<> bool PhysicWorld::_setDebugDrawer;
 
-PhysicWorld::PhysicWorld() {
 
+PhysicWorld::PhysicWorld() {
 }
 PhysicWorld::~PhysicWorld(){
-	// Eliminar cuerpos rigidos --------------------------------------
-	std::deque <OgreBulletDynamics::RigidBody *>::iterator
-	itBody = _bodies.begin();
-	while (_bodies.end() != itBody) {
-		delete *itBody;  ++itBody;
-	}
 
-	// Eliminar formas de colision -----------------------------------
-	std::deque<OgreBulletCollisions::CollisionShape *>::iterator
-	itShape = _shapes.begin();
-	while (_shapes.end() != itShape) {
-		delete *itShape; ++itShape;
-	}
-
-	_bodies.clear();
-	_shapes.clear();
-
-	if (_setDebugDrawer) {
-		// Eliminacion de debugDrawer -------------------------
-		delete _world->getDebugDrawer();
-		_world->setDebugDrawer(0);
-	}
-
-	// Eliminar mundo dinamico
-	delete _world;
 }
 
 void PhysicWorld::initializeParamsConf() {
 	_gravity = Properties::getSingletonPtr()->getPropertyFloat("world.gravity");
 	_wordlBounds = Properties::getSingletonPtr()->getPropertyVector("world.bounds");
 	_setDebugDrawer = Properties::getSingletonPtr()->getPropertyBool("world.setDebugDrawer");
+}
+
+void
+PhysicWorld::finalizeWorld(){
+	deleteDeques();
+
+	if (_setDebugDrawer) {
+		// Eliminacion de debugDrawer -------------------------
+		if (_world && _world->getDebugDrawer()){
+			delete _world->getDebugDrawer();
+			_world->setDebugDrawer(0);
+		}
+
+	}
+
+	// Eliminar mundo dinamico
+	if (_world){
+		delete _world;
+		_world = NULL;
+	}
 }
 
 void
@@ -93,5 +89,25 @@ PhysicWorld::showDebugShapes(bool value){
 void
 PhysicWorld::stepSimulation(float elapsedTime, int maxSubSteps){
 	_world->stepSimulation(elapsedTime,maxSubSteps);
+}
+
+void
+PhysicWorld::deleteDeques(){
+	// Eliminar cuerpos rigidos --------------------------------------
+	std::deque <OgreBulletDynamics::RigidBody *>::iterator
+	itBody = _bodies.begin();
+	while (_bodies.end() != itBody) {
+		delete *itBody;  ++itBody;
+	}
+
+	// Eliminar formas de colision -----------------------------------
+	std::deque<OgreBulletCollisions::CollisionShape *>::iterator
+	itShape = _shapes.begin();
+	while (_shapes.end() != itShape) {
+		delete *itShape; ++itShape;
+	}
+
+	_bodies.clear();
+	_shapes.clear();
 }
 

@@ -1,5 +1,5 @@
 #include "PlayState.h"
-#include "PauseState.h"
+
 
 template<> PlayState* Ogre::Singleton<PlayState>::msSingleton = 0;
 
@@ -13,8 +13,8 @@ PlayState::PlayState() {
 	_ball = 0;
 	_camera = 0;
 	_hud=0;
-	_state = STATE_PLAYING;
-	_currentLevelNumber = 1;
+	_currentLevelNumber = 0;
+	_physicWorld = 0;
 
 	KEY_UP = false;
 	KEY_DOWN = false;
@@ -41,37 +41,71 @@ PlayState::enter ()
 	_viewport->setBackgroundColour(Ogre::ColourValue(0.016, 0.454, 0.467));
 
 
-	// Se inicializa el hud
-	_hud = new Hud();
-
 	// Se inicializan los valores de configuracion
 	initializeParamsConf();
 
 	// Se imprimen los parametro sconfigurables
 	printConf();
 
-	// Se inicializa el mundo fisico
-	PhysicWorld::initializeWorld(_sceneMgr);
+	_physicWorld = new PhysicWorld();
 
-	// Se inicializa la escena
-	createScene();
+	// Se inicia una nueva partida
+	startGame();
 
 }
 
 void
 PlayState::exit ()
 {
+	KEY_UP = false;
+	KEY_DOWN = false;
+	KEY_RIGHT = false;
+	KEY_LEFT = false;
+
+	if (_physicWorld){
+		_physicWorld->finalizeWorld();
+		delete _physicWorld;
+		_physicWorld = NULL;
+	}
+
+	if (_hud) {
+		delete _hud;
+		_hud = NULL;
+	}
+
+
+	// Se elimina el actual nivel si existe
+	if (_currentLevel) {
+		delete _currentLevel;
+	}
+
+
+	if (_ball) {
+		delete _ball;
+		_ball = NULL;
+	}
+
+
+	// Se vacia el scene manager
+	_sceneMgr->clearScene();
+
+
 	if (_root) {
 		if (_sceneMgr) {
 			_root->destroySceneManager(_sceneMgr);
 		}
 		_root->getAutoCreatedWindow()->removeAllViewports();
 	}
+
 }
 
 void
 PlayState::pause()
 {
+	KEY_UP = false;
+	KEY_DOWN = false;
+	KEY_RIGHT = false;
+	KEY_LEFT = false;
 }
 
 void
@@ -84,8 +118,12 @@ bool
 PlayState::frameStarted
 (const Ogre::FrameEvent& evt)
 {
+
 	Ogre::Real deltaT = evt.timeSinceLastFrame;
-	PhysicWorld::stepSimulation(deltaT);
+
+	_physicWorld->stepSimulation(deltaT);
+
+
 	float fps;
 
 
@@ -95,58 +133,70 @@ PlayState::frameStarted
 		fps = 1.0f / deltaT;
 	}
 
-	if (_state == STATE_PLAYING) {
 
-		if (KEY_UP) {
-			Ogre::Vector3 direction(0,0,1);
-			_ball->applyImpulse(direction,deltaT);
-		}
+	if (KEY_UP) {
+		Ogre::Vector3 direction(0,0,1);
+		_ball->applyImpulse(direction,deltaT);
 
-		if (KEY_DOWN) {
-			Ogre::Vector3 direction(0,0,-1);
-			_ball->applyImpulse(direction,deltaT);
-		}
-
-		if (KEY_LEFT) {
-			Ogre::Vector3 direction(1,0,0);
-			_ball->applyImpulse(direction,deltaT);
-		}
-
-		if (KEY_RIGHT) {
-			Ogre::Vector3 direction(-1,0,0);
-			_ball->applyImpulse(direction,deltaT);
-		}
-
-		// Se le consulta al nivel actual si se ha producido algun evento que mate a la bola
-		if (_currentLevel->isEndOfLive(_ball->getSceneNode()))
-			_state = STATE_END;
-
-		// Se consulta si ha terminado el tiempo
-		cout << "Segundos restantes: " <<_hud->getCurrentTime() << endl;
-		if (_hud->getCurrentTime() <= 0){
-			_state = STATE_END;
-		}
-
-
-		// Se actualiza la camara en función de la posición de la bola
-		_camera->updateCamera(_ball->getPosition());
-
-		// Se actualiza el hud
-		_hud->update(deltaT,fps);
-
-	} else if (_state == STATE_END) {
-		gameEnd();
 	}
 
+	if (KEY_DOWN) {
+		Ogre::Vector3 direction(0,0,-1);
+		_ball->applyImpulse(direction,deltaT);
+	}
+
+	if (KEY_LEFT) {
+		Ogre::Vector3 direction(1,0,0);
+		_ball->applyImpulse(direction,deltaT);
+	}
+
+	if (KEY_RIGHT) {
+		Ogre::Vector3 direction(-1,0,0);
+		_ball->applyImpulse(direction,deltaT);
+	}
+
+	if (_currentLevel->isEndOfLive(_ball->getSceneNode())){
+		dead();
+		return true;
+	}
+
+	// Se consulta si ha terminado el tiempo
+
+	if (_hud->getCurrentTime() <= 0){
+		dead();
+		return true;
+	}
+
+	// Se le consulta al nivel actual si se ha compleatdo con éxito
+	if (_currentLevel->isLevelCompleted(_ball->getSceneNode())){
+		levelCompleted();
+		return true;
+	}
+
+
+
+	// Se actualiza la camara en función de la posición de la bola
+	_camera->updateCamera(_ball->getPosition());
+
+
+
+	// Se actualiza el hud
+	_hud->update(deltaT,fps);
+
 	return true;
+
 }
 
 bool
 PlayState::frameEnded
 (const Ogre::FrameEvent& evt)
 {
+
 	Ogre::Real deltaT = evt.timeSinceLastFrame;
-	PhysicWorld::stepSimulation(deltaT);
+
+
+	_physicWorld->stepSimulation(deltaT);
+
 
 	if (_exitGame)
 		return false;
@@ -161,15 +211,15 @@ PlayState::keyPressed
 
 	// Tecla p --> PauseState.
 	if (e.key == OIS::KC_P) {
-		pushState(PauseState::getSingletonPtr());
+		//pushState(PauseState::getSingletonPtr());
 	}
 
 	if (e.key == OIS::KC_1) {
-		PhysicWorld::showDebugShapes(true);
+		_physicWorld->showDebugShapes(true);
 	}
 
 	if (e.key == OIS::KC_2) {
-		PhysicWorld::showDebugShapes(false);
+		_physicWorld->showDebugShapes(false);
 	}
 
 	if (e.key == OIS::KC_UP) {
@@ -188,13 +238,6 @@ PlayState::keyPressed
 		KEY_RIGHT = true;
 	}
 
-	if (e.key == OIS::KC_A) {
-		_hud->decreaseLive();
-	}
-
-	if (e.key == OIS::KC_S) {
-		_hud->setInfo("Mensaje de prueba largo, aqui se puede poner todo esto y mucho mas");
-	}
 
 
 }
@@ -255,6 +298,11 @@ PlayState::getSingleton ()
 	return *msSingleton;
 }
 
+string
+PlayState::getName (){
+	return "PlayState";
+}
+
 void
 PlayState::createScene(){
 
@@ -263,6 +311,10 @@ PlayState::createScene(){
 
 		// Se instancia el nivel correspondiente
 		_currentLevel = new LevelOne("Level1.mesh","Level1");
+	} else if (_currentLevelNumber == 2) {
+
+		// Se instancia el nivel correspondiente
+		_currentLevel = new LevelTwo("Level1.mesh","Level1");
 	}
 
 	// Se instancia la bola
@@ -273,36 +325,48 @@ PlayState::createScene(){
 
 void
 PlayState::initializeParamsConf(){
-	_currentLevelNumber = Properties::getSingletonPtr()->getPropertyInt("game.startLevel");
+
 }
 
 void
 PlayState::printConf(){
-	Ogre::LogManager::getSingletonPtr()->logMessage("************ PlayState ***************");
-	Ogre::LogManager::getSingletonPtr()->logMessage("game.startLevel: " + StringConverter::toString(_currentLevelNumber));
-	Ogre::LogManager::getSingletonPtr()->logMessage("***************************************");
+
+}
+
+
+
+void
+PlayState::startGame(){
+
+
+	// Se inicializa el hud
+	_hud = new Hud();
+
+	// Se inicializa el mundo fisico
+	_physicWorld = new PhysicWorld();
+	_physicWorld->initializeWorld(_sceneMgr);
+
+	// Se inicializa la escena
+	createScene();
+
 }
 
 void
-PlayState::gameEnd(){
+PlayState::dead(){
+	// Se comprueba si era la última vida
+	bool ultimaVida = _hud->decreaseLive();
 
-	// Se decrementa una vida. Si la vida es la ultima (endGame == true)
-	bool endGame = _hud->decreaseLive();
-	if (endGame){
-		// Se han acabado las vidas
-
+	if (ultimaVida){
+		changeState(GameOverState::getSingletonPtr());
 	} else {
-		reset();
-		_state = STATE_PLAYING;
+		pushState(DeadState::getSingletonPtr());
 	}
-
 }
 
 void
-PlayState::reset(){
-	_ball->resetBall(_currentLevel->getInitPositionBall());
-	_camera->updateCamera(_ball->getPosition());
-	_hud->setLevel(_currentLevelNumber);
-	_hud->resetTime(_currentLevel->getTimeToComplete());
+PlayState::levelCompleted(){
+	LevelCompletedState::getSingletonPtr()->setLevelComplete(_currentLevelNumber);
+	LevelCompletedState::getSingletonPtr()->setTime(_hud->getElapsedTime());
+	changeState(LevelCompletedState::getSingletonPtr());
 
 }

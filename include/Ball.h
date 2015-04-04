@@ -6,10 +6,10 @@
 class Ball : public PhysicWorld {
 public:
 	Ball(const string& ballMesh, const string& ballName, Vector3 initPos);
-	~Ball();
+	virtual ~Ball();
 	void applyImpulse(Vector3 direction, float delta);
 	const Vector3& getPosition();
-	SceneNode* getSceneNode(){return _ballNode;};
+	SceneNode* getSceneNode();
 	void resetBall(Vector3 pos);
 
 private:

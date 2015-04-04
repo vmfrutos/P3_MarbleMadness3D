@@ -1,13 +1,13 @@
-#ifndef __LEVEL_ONE_H__
-#define __LEVEL_ONE_H__
+#ifndef __LEVEL_TWO_H__
+#define __LEVEL_TWO_H__
 
 #include "Level.h"
 
-class LevelOne : public Level {
+class LevelTwo : public Level {
 
 public:
-	LevelOne(const string& groundMesh, const string& groundName);
-	~LevelOne();
+	LevelTwo(const string& groundMesh, const string& groundName);
+	~LevelTwo();
 
 private:
 	// Funciones virtuales de Level

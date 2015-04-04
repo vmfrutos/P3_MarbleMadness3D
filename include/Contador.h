@@ -21,12 +21,15 @@ public:
 	void reset();
 	void reset(Ogre::Real segundos);
 	Ogre::Real getSegundosTranscurridos();
+	int getValorInicial(){return _valorInicial;};
 
 private:
 	Ogre::Real _segundosTranscurridos;
 	int _horas;
 	int _minutos;
 	int _segundos;
+
+	int _valorInicial;
 
 
 

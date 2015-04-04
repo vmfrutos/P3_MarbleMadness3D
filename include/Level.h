@@ -1,5 +1,5 @@
 #ifndef __LEVEL_H__
-#define _LEVEL_H__
+#define __LEVEL_H__
 
 #include "PhysicWorld.h"
 
@@ -15,15 +15,24 @@ public:
 	virtual void setLight() = 0;
 	virtual int getLevelNumber() = 0;
 	virtual bool isEndOfLive(SceneNode* ball) = 0;
+	virtual bool isLevelCompleted(SceneNode* ball) = 0;
 	virtual Vector3 getInitPositionBall() = 0;
 	virtual float getTimeToComplete() = 0;
 
 
 
+
 protected:
 
-	void addGround(const string& groundMesh, const string& groundName);
-
+	bool colisionNodes(SceneNode* node1, SceneNode* node2);
+	SceneNode* addTriangleMeshCollisionShape(
+				const string& mesh,
+				const string& name,
+				const Vector3& pos,
+				const Quaternion& orientation,
+				const float restitution,
+				const float friction,
+				const float mass);
 
 	// Parametros configurables
 	float _restitution;

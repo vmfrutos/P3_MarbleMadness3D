@@ -11,7 +11,6 @@ Ball::Ball(const string& ballMesh, const string& ballName, Vector3 initPos):Phys
 }
 
 Ball::~Ball(){
-
 }
 
 void
@@ -89,5 +88,11 @@ Ball::resetBall(Vector3 pos){
 	_rigidBall->getBulletRigidBody()->getWorldTransform().setOrigin(newPosVector);
 	_ballNode->translate(pos);
 	_world->getBulletDynamicsWorld()->addRigidBody(_rigidBall->getBulletRigidBody());
+
+}
+
+SceneNode*
+Ball::getSceneNode(){
+	return _ballNode;
 
 }

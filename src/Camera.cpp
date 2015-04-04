@@ -21,7 +21,6 @@ Camera::getOgreCamera(){
 
 void
 Camera::updateCamera(Ogre::Vector3 ballPosition){
-	//_camera->setPosition(ballPosition.x,(ballPosition.y + _distanceBallY),ballPosition.z-_distanceBallZ);
 	_camera->setPosition(ballPosition.x,(ballPosition.y + _distanceBallY),ballPosition.z-_distanceBallZ);
 	_camera->lookAt(ballPosition);
 }

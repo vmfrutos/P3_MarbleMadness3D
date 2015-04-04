@@ -55,10 +55,10 @@ Properties::getKeys(){
 	keys.reserve(_hashMap.size());
 
 	for (map<string, string>::iterator iter = _hashMap.begin();
-	                                        iter != _hashMap.end();
-	                                        ++iter)
+			iter != _hashMap.end();
+			++iter)
 	{
-	    keys.push_back(iter->first);
+		keys.push_back(iter->first);
 	}
 	return keys;
 }
@@ -66,14 +66,18 @@ Properties::getKeys(){
 Properties*
 Properties::getSingletonPtr ()
 {
-  return msSingleton;
+	std::cout << "Properties::getSingletonPtr" << std::endl;
+	if (msSingleton == 0) {
+		std::cout << "Properties::getSingletonPtr----->>>> msSingleton == 0" << std::endl;
+	}
+	return msSingleton;
 }
 
 Properties&
 Properties::getSingleton ()
 {
-  assert(msSingleton);
-  return *msSingleton;
+	assert(msSingleton);
+	return *msSingleton;
 }
 
 Ogre::Vector3

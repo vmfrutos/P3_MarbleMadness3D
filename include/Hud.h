@@ -1,13 +1,15 @@
 #ifndef __HUD_H__
 #define __HUD_H__
 
-#include <CEGUI.h>
 #include "Contador.h"
+#include "Properties.h"
+#include "CeguiManager.h"
+#include <CEGUI.h>
 
 class Hud {
 public:
 	Hud();
-	~Hud();
+	virtual ~Hud();
 
 	void update(float delta, float fps);
 	void resetTime(float time);
@@ -17,11 +19,11 @@ public:
 	void addInfo(const string& msg);
 	int getNumLives();
 	float getCurrentTime();
+	int getElapsedTime();
 
 
 private:
 
-	CEGUI::Window* _sheet;
 	CEGUI::Window* _hud;
 	CEGUI::Window* _timeText;
 	CEGUI::Window* _fpsText;
@@ -29,6 +31,7 @@ private:
 	Contador _contador;
 
 	int _numLives;
+	int _startAlertTime;
 
 	void initialize();
 

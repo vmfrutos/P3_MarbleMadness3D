@@ -5,7 +5,12 @@
 #include <OIS/OIS.h>
 
 #include "GameState.h"
+#include "DeadState.h"
+#include "GameOverState.h"
+#include "LevelCompletedState.h"
+#include "SetRecordState.h"
 #include "LevelOne.h"
+#include "LevelTwo.h"
 #include "Ball.h"
 #include "Camera.h"
 #include "Hud.h"
@@ -21,6 +26,7 @@ public:
 	void exit ();
 	void pause ();
 	void resume ();
+	string getName ();
 
 	void keyPressed (const OIS::KeyEvent &e);
 	void keyReleased (const OIS::KeyEvent &e);
@@ -32,9 +38,22 @@ public:
 	bool frameStarted (const Ogre::FrameEvent& evt);
 	bool frameEnded (const Ogre::FrameEvent& evt);
 
+	void setLevel(int level) {_currentLevelNumber = level;};
+	Ball* getBall() {return _ball;};
+	Hud* getHud() {return _hud;};
+	Level* getCurrentLevel(){return _currentLevel;};
+	::Camera* getCamera(){return _camera;};
+
 	// Heredados de Ogre::Singleton.
 	static PlayState& getSingleton ();
 	static PlayState* getSingletonPtr ();
+
+	// Subestados de PlayState
+	static const int STATE_PLAYING = 0;
+	static const int STATE_END = 1;
+	static const int STATE_EXIT = 2;
+	static const int STATE_LEVEL_COMPLETED = 3;
+
 
 private:
 	Ogre::Root* _root;
@@ -44,19 +63,22 @@ private:
 
 
 	bool _exitGame;
-	int _state;
 
 	int _currentLevelNumber;
 	Level* _currentLevel;
 	Ball* _ball;
 	::Camera* _camera;
 	Hud* _hud;
+	PhysicWorld* _physicWorld;
 
 	void createScene();
 	void initializeParamsConf();
 	void printConf();
-	void gameEnd();
-	void reset();
+	void startGame();
+	void dead();
+	void levelCompleted();
+
+
 
 
 	// Teclas pulsadas
@@ -64,13 +86,6 @@ private:
 	bool KEY_DOWN;
 	bool KEY_RIGHT;
 	bool KEY_LEFT;
-
-	// Estados
-	static const int STATE_PLAYING = 0;
-	static const int STATE_SHOW_LEVEL = 1;
-	static const int STATE_END = 2;
-	static const int STATE_PAUSE = 3;
-	static const int STATE_SET_RECORD = 4;
 
 };
 
