@@ -55,7 +55,6 @@ private:
 	bool mousePressed (const OIS::MouseEvent &e, OIS::MouseButtonID id);
 	bool mouseReleased (const OIS::MouseEvent &e, OIS::MouseButtonID id);
 
-	void initializeCEGUI();
 
 
 	// Gestor de eventos de entrada.

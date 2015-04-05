@@ -2,7 +2,7 @@
 
 <GUILayout>
     <Window Type="DefaultWindow" Name="InputTextWindow" >
-		<Property Name="UnifiedAreaRect" Value="{{0.2,0},{0.2,0},{0.8,0},{0.8,0}}" />
+		<Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{1,0}}" />
         
 		<Window Type="TaharezLook/StaticImage" Name="InputTextWindow/Fondo" >
 			<Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{1,0}}" />

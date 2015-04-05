@@ -37,7 +37,6 @@ CeguiManager::getSheet(){
 	if (_sheet) {
 		return _sheet;
 	}
-
 	return 0;
 }
 

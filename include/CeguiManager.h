@@ -2,6 +2,7 @@
 #define __CEGUIMANAGER_H__
 #include <CEGUI.h>
 #include <OIS/OIS.h>
+#include <iostream>
 #include <RendererModules/Ogre/CEGUIOgreRenderer.h>
 
 class CeguiManager {

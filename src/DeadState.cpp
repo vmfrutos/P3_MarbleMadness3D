@@ -13,8 +13,7 @@ DeadState::~DeadState(){
 void
 DeadState::enter ()
 {
-
-	_modalWindow = new Modalwindow;
+	_modalWindow = new Modalwindow("modalWindow.layout");
 	_modalWindow->setText("Try again.\nPress any key to continue.");
 	_modalWindow->show();
 }
@@ -25,8 +24,6 @@ DeadState::exit ()
 	_modalWindow->hide();
 	delete _modalWindow;
 	_modalWindow = 0;
-
-
 }
 
 void

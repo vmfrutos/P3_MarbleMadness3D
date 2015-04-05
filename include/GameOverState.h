@@ -6,7 +6,7 @@
 
 #include "GameState.h"
 #include "PlayState.h"
-
+#include "IntroState.h"
 
 #include "Ball.h"
 #include "Level.h"
@@ -43,6 +43,9 @@ private:
 	Modalwindow* _modalWindow;
 	bool _setRecord;
 	bool _salir; // variable a quitar ciuando estén los estados necesarios
+
+	void gotoSetRecord();
+	void gotoIntro();
 
 };
 

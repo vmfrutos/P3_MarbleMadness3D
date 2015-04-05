@@ -15,20 +15,23 @@ void
 GameOverState::enter ()
 {
 	_salir = false;
-
-	_modalWindow = new Modalwindow;
+	_modalWindow = new Modalwindow("modalWindow.layout");
 	_modalWindow->setText("Game Over.\nPress any key.");
 	_modalWindow->show();
 
 	// Se consulta a LevelCompletedState para saber si se ha completado algún nivel y hay que establecer record
-	//TODO:
-
-	_setRecord = false;
+	int levelComplete = LevelCompletedState::getSingletonPtr()->getLevelComplete();
+	if (levelComplete >0){ // No se pone record, porque no se ha completado ningún nivel
+		_setRecord = true;
+	} else {
+		_setRecord = false;
+	}
 }
 
 void
 GameOverState::exit ()
 {
+
 	_modalWindow->hide();
 	delete _modalWindow;
 	_modalWindow = 0;
@@ -48,9 +51,6 @@ bool
 GameOverState::frameStarted
 (const Ogre::FrameEvent& evt)
 {
-	if (_salir) {
-		return false;
-	}
 	return true;
 }
 
@@ -66,9 +66,9 @@ GameOverState::keyPressed
 (const OIS::KeyEvent &e) {
 
 	if (_setRecord) {
-		_salir = true;
+		gotoSetRecord();
 	} else {
-		_salir = true;
+		gotoIntro();
 	}
 
 }
@@ -113,4 +113,13 @@ GameOverState::getSingleton ()
 string
 GameOverState::getName (){
 	return "GameOverState";
+}
+
+void GameOverState::gotoSetRecord(){
+	changeState(SetRecordState::getSingletonPtr());
+}
+
+void GameOverState::gotoIntro(){
+
+	changeState(IntroState::getSingletonPtr());
 }

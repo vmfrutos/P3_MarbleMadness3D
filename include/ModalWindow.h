@@ -4,23 +4,25 @@
 #include <Ogre.h>
 #include <CEGUI.h>
 #include "CeguiManager.h"
+using namespace std;
+
 class Modalwindow{
-public:
-	Modalwindow();
+	public:
+	Modalwindow(const string& layout);
 	~Modalwindow();
 
 
 	void show();
 	void hide();
-	void setText(const std::string& text);
+	void setText(const string& text);
 
 
 private:
 
-	void initialize();
+	void initialize(const string& layout);
 
 	CEGUI::Window* _window;
-	//CEGUI::Window* _sheet;
+
 
 
 

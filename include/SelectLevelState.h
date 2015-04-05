@@ -48,6 +48,8 @@ protected:
 
 private:
 	void gotoToPlayState();
+	void gotoSetRecord();
+	bool _gameCompleted;
 };
 
 #endif

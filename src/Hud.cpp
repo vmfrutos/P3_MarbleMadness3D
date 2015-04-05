@@ -1,7 +1,7 @@
 #include "Hud.h"
 
+template<> int Hud::_numLives;
 Hud::Hud(){
-	_numLives = 3;
 	_hud = 0;
 
 	initialize();
@@ -9,41 +9,17 @@ Hud::Hud(){
 	_startAlertTime = Properties::getSingletonPtr()->getPropertyInt("game.startAlertTime");
 }
 Hud::~Hud(){
-
-	cout << "PlayState::~Hud() 01" << endl;
-
-	if (_timeText) {
-		//CeguiManager::getSheet()->removeChildWindow(_timeText);
-		cout << "PlayState::~Hud() 02" << endl;
-		_timeText->destroy();
-		cout << "PlayState::~Hud() 03" << endl;
-		_timeText = NULL;
-		cout << "PlayState::~Hud() 04" << endl;
-	}
-	if (_fpsText) {
-		//CeguiManager::getSheet()->removeChildWindow(_fpsText);
-		cout << "PlayState::~Hud() 05" << endl;
-		_fpsText->destroy();
-		cout << "PlayState::~Hud() 06" << endl;
-		_fpsText = NULL;
-		cout << "PlayState::~Hud() 07" << endl;
-	}
 	if (_hud) {
-		//CeguiManager::getSheet()->removeChildWindow(_hud);
-		cout << "PlayState::~Hud() 08" << endl;
+		_hud->hide();
 		_hud->destroy();
-		cout << "PlayState::~Hud() 09" << endl;
-		_hud = NULL;
-		cout << "PlayState::~Hud() 10" << endl;
+		_hud = 0;
 	}
+
 }
 
 void Hud::initialize(){
 
 	CEGUI::Window* _sheet = CeguiManager::getSheet();
-
-	//_sheet = CEGUI::WindowManager::getSingletonPtr()->createWindow("DefaultWindow","SheetHud");
-	//CEGUI::System::getSingleton().setGUISheet(_sheet);
 
 	// Se crea el layout
 	_hud  = CEGUI::WindowManager::getSingleton().loadWindowLayout("hud.layout");
@@ -74,6 +50,16 @@ void Hud::initialize(){
 
 	_timeText =_hud->getChild("Hud/Fondo")->getChild("TimeBox")->getChild("TimeText");
 	_fpsText =_hud->getChild("Hud/Fondo")->getChild("FpsBox")->getChild("FpsText");
+
+	/*
+	if (_numLives == 2){
+		_hud->getChild("Hud/Fondo")->getChild("Live3")->hide();
+
+	} else if (_numLives == 1){
+		_hud->getChild("Hud/Fondo")->getChild("Live2")->hide();
+
+	}
+	*/
 
 }
 
@@ -119,6 +105,19 @@ bool Hud::decreaseLive(){
 void
 Hud::setLevel(int level){
 	_hud->getChild("Hud/Fondo")->getChild("LevelBox")->getChild("LevelText")->setText(Ogre::StringConverter::toString(level));
+}
+
+void
+Hud::setNumLives(int lives) {
+	_numLives = lives;
+	if (_numLives == 2){
+		_hud->getChild("Hud/Fondo")->getChild("Live3")->hide();
+
+	} else if (_numLives == 1){
+		_hud->getChild("Hud/Fondo")->getChild("Live3")->hide();
+		_hud->getChild("Hud/Fondo")->getChild("Live2")->hide();
+
+	}
 }
 
 void

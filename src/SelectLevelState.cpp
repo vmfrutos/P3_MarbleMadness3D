@@ -2,125 +2,107 @@
 
 template<> SelectLevelState* Ogre::Singleton<SelectLevelState>::msSingleton = 0;
 
-SelectLevelState::SelectLevelState(){
+SelectLevelState::SelectLevelState() {
 	_modalWindow = 0;
 	_numberOfLevels = 0;
 	_nextLevelNumber = 0;
+	_gameCompleted = false;
 }
-SelectLevelState::~SelectLevelState(){
-
+SelectLevelState::~SelectLevelState() {
 
 }
 
+void SelectLevelState::enter() {
+	_numberOfLevels = Properties::getSingletonPtr()->getPropertyInt(
+			"game.numberOfLevels");
 
-
-void
-SelectLevelState::enter ()
-{
-	_numberOfLevels = Properties::getSingletonPtr()->getPropertyInt("game.numberOfLevels");
-	_modalWindow = new Modalwindow;
+	_modalWindow = new Modalwindow("modalWindowFull.layout");
 	_contador.reset();
-	_modalWindow->setText("Level " + Ogre::StringConverter::toString(_nextLevelNumber) + ".");
+
+	if (_nextLevelNumber > _numberOfLevels) {
+		// Se han completado todos los niveles
+		_gameCompleted = true;
+		_modalWindow->setText("Game completed.");
+	} else {
+		_gameCompleted = false;
+		_modalWindow->setText("Level " + Ogre::StringConverter::toString(_nextLevelNumber) + ".");
+	}
+
 	_modalWindow->show();
 
-	cout << "SelectLevelState " << " el nivel a cargar es " << Ogre::StringConverter::toString(_nextLevelNumber) << endl;
-
 }
 
-void
-SelectLevelState::exit ()
-{
+void SelectLevelState::exit() {
 	_modalWindow->hide();
 	delete _modalWindow;
 	_modalWindow = 0;
 
 }
 
-void
-SelectLevelState::pause ()
-{
+void SelectLevelState::pause() {
 }
 
-void
-SelectLevelState::resume ()
-{
+void SelectLevelState::resume() {
 }
 
-bool
-SelectLevelState::frameStarted
-(const Ogre::FrameEvent& evt)
-{
+bool SelectLevelState::frameStarted(const Ogre::FrameEvent& evt) {
 	_contador.incrementar(evt.timeSinceLastFrame);
 
-	if (_nextLevelNumber > _numberOfLevels){
-		// Se han completado todos los niveles
+	if (_contador.getSegundosTranscurridos() > 1) { // Se esperan 1 segundos con la ventana y se pasa al estado PlayState
+		if (!_gameCompleted) {
+			gotoToPlayState();
+		} else {
+			gotoSetRecord();
+		}
+
 	}
-
-	if (_contador.getSegundosTranscurridos() > 1){ // Se esperan 1 segundos con la ventana y se pasa al estado PlayState
-		gotoToPlayState();
-
-	}
-	return true;
-}
-
-bool
-SelectLevelState::frameEnded
-(const Ogre::FrameEvent& evt)
-{
 
 	return true;
 }
 
-void
-SelectLevelState::keyPressed
-(const OIS::KeyEvent &e) {
+bool SelectLevelState::frameEnded(const Ogre::FrameEvent& evt) {
+
+	return true;
+}
+
+void SelectLevelState::keyPressed(const OIS::KeyEvent &e) {
 	gotoToPlayState();
 }
 
-void
-SelectLevelState::keyReleased
-(const OIS::KeyEvent &e)
-{
+void SelectLevelState::keyReleased(const OIS::KeyEvent &e) {
 }
 
-void
-SelectLevelState::mouseMoved
-(const OIS::MouseEvent &e)
-{
+void SelectLevelState::mouseMoved(const OIS::MouseEvent &e) {
 }
 
-void
-SelectLevelState::mousePressed
-(const OIS::MouseEvent &e, OIS::MouseButtonID id)
-{
+void SelectLevelState::mousePressed(const OIS::MouseEvent &e,
+		OIS::MouseButtonID id) {
 }
 
-void
-SelectLevelState::mouseReleased
-(const OIS::MouseEvent &e, OIS::MouseButtonID id)
-{
+void SelectLevelState::mouseReleased(const OIS::MouseEvent &e,
+		OIS::MouseButtonID id) {
 }
 
 SelectLevelState*
-SelectLevelState::getSingletonPtr ()
-{
+SelectLevelState::getSingletonPtr() {
 	return msSingleton;
 }
 
 SelectLevelState&
-SelectLevelState::getSingleton ()
-{ 
+SelectLevelState::getSingleton() {
 	assert(msSingleton);
 	return *msSingleton;
 }
 
-string
-SelectLevelState::getName (){
+string SelectLevelState::getName() {
 	return "SelectLevelState";
 }
 
-void
-SelectLevelState::gotoToPlayState(){
+void SelectLevelState::gotoToPlayState() {
 	PlayState::getSingletonPtr()->setLevel(_nextLevelNumber);
 	changeState(PlayState::getSingletonPtr());
+}
+
+void SelectLevelState::gotoSetRecord(){
+	changeState(SetRecordState::getSingletonPtr());
 }

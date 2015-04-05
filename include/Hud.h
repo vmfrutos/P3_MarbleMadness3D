@@ -15,11 +15,13 @@ public:
 	void resetTime(float time);
 	bool decreaseLive();
 	void setLevel(int level);
+	void setNumLives(int lives);
 	void setInfo(const string& msg);
 	void addInfo(const string& msg);
 	int getNumLives();
 	float getCurrentTime();
 	int getElapsedTime();
+
 
 
 private:
@@ -30,7 +32,7 @@ private:
 
 	Contador _contador;
 
-	int _numLives;
+	static int _numLives;
 	int _startAlertTime;
 
 	void initialize();

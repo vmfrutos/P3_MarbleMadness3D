@@ -15,13 +15,17 @@ GameManager::GameManager ()
 
 GameManager::~GameManager ()
 {
+
 	while (!_states.empty()) {
 		_states.top()->exit();
 		_states.pop();
 	}
 
-	if (_root)
+	CeguiManager::finalize();
+
+	if (_root){
 		delete _root;
+	}
 }
 
 void
@@ -147,8 +151,6 @@ GameManager::configure ()
 
 
 
-	// Se inicializa CEGUI
-	//initializeCEGUI();
 	CeguiManager::initialize();
 
 
@@ -226,23 +228,6 @@ GameManager::mouseReleased
 	return true;
 }
 
-void
-GameManager::initializeCEGUI(){
-	CEGUI::OgreRenderer::bootstrapSystem();
 
-
-	CEGUI::Scheme::setDefaultResourceGroup("Schemes");
-	CEGUI::Imageset::setDefaultResourceGroup("Imagesets");
-	CEGUI::Font::setDefaultResourceGroup("Fonts");
-	CEGUI::WindowManager::setDefaultResourceGroup("Layouts");
-	CEGUI::WidgetLookManager::setDefaultResourceGroup("LookNFeel");
-
-	CEGUI::SchemeManager::getSingleton().create("TaharezLook.scheme");
-	CEGUI::System::getSingleton().setDefaultFont("DejaVuSans-10");
-	CEGUI::System::getSingleton().setDefaultMouseCursor("TaharezLook","MouseArrow");
-	CEGUI::MouseCursor::getSingleton().hide();
-
-
-}
 
 

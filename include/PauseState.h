@@ -3,13 +3,15 @@
 
 #include <Ogre.h>
 #include <OIS/OIS.h>
+#include "ModalWindow.h"
 
 #include "GameState.h"
 
 class PauseState : public Ogre::Singleton<PauseState>, public GameState
 {
  public:
-  PauseState() {}
+  PauseState();
+  virtual ~PauseState();
 
   void enter ();
   void exit ();
@@ -31,13 +33,9 @@ class PauseState : public Ogre::Singleton<PauseState>, public GameState
   static PauseState& getSingleton ();
   static PauseState* getSingletonPtr ();
 
- protected:
-  Ogre::Root* _root;
-  Ogre::SceneManager* _sceneMgr;
-  Ogre::Viewport* _viewport;
-  Ogre::Camera* _camera;
+ private:
+  Modalwindow* _modalWindow;
 
-  bool _exitGame;
 };
 
 #endif

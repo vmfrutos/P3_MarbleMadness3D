@@ -5,6 +5,9 @@
 #include <CEGUI.h>
 #include "CeguiManager.h"
 #include "GameState.h"
+#include "LevelCompletedState.h"
+#include "RecordsManager.h"
+#include "Record.h"
 
 class SetRecordState : public Ogre::Singleton<SetRecordState>, public GameState{
 public:
@@ -40,10 +43,14 @@ private:
 	void setText(const std::string& text);
 	void initialize();
 	bool clickButton(const CEGUI::EventArgs &e);
+	void gotoToIntroState();
 
 	CEGUI::Window* _window;
 	bool _exit;
-	bool _initialiced;
+	bool _initialized;
+
+	int _maxLevel;
+	int _time;
 
 };
 #endif

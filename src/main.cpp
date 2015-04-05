@@ -8,6 +8,9 @@
 #include "GameOverState.h"
 #include "LevelCompletedState.h"
 #include "SetRecordState.h"
+#include "IntroState.h"
+#include "PauseState.h"
+#include "RecordsManager.h"
 
 
 
@@ -30,6 +33,7 @@ int main () {
 	}
 #endif
 
+	RecordsManager* recordsManager = new RecordsManager();
 	GameManager* game = new GameManager();
 
 	PlayState* playState = new PlayState();
@@ -38,9 +42,8 @@ int main () {
 	GameOverState* gameOverState = new GameOverState();
 	LevelCompletedState* levelCompletedState = new LevelCompletedState();
 	SetRecordState* setRecordState = new SetRecordState();
-
-	//PauseState* pauseState = new PauseState();
-	//IntroState* introState = new IntroState();
+	IntroState* introState = new IntroState();
+	PauseState* pauseState = new PauseState();
 
 
 	UNUSED_VARIABLE(playState);
@@ -49,14 +52,13 @@ int main () {
 	UNUSED_VARIABLE(gameOverState);
 	UNUSED_VARIABLE(levelCompletedState);
 	UNUSED_VARIABLE(setRecordState);
-	//UNUSED_VARIABLE(introState);
-	//UNUSED_VARIABLE(pauseState);
+	UNUSED_VARIABLE(introState);
+	UNUSED_VARIABLE(pauseState);
 
 	try
 	{
 		// Inicializa el juego y transición al primer estado.
-		SelectLevelState::getSingletonPtr()->setLevel(1);
-		game->start(SelectLevelState::getSingletonPtr());
+		game->start(IntroState::getSingletonPtr());
 
 	}
 	catch (Ogre::Exception& e)
@@ -64,6 +66,9 @@ int main () {
 		std::cerr << "Excepción detectada: " << e.getFullDescription();
 	}
 
-	delete game;
+	if (game)
+		delete game;
+	if (recordsManager)
+		delete recordsManager;
 	return 0;
 }

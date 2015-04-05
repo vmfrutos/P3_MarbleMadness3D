@@ -8,6 +8,7 @@
 #include "DeadState.h"
 #include "GameOverState.h"
 #include "LevelCompletedState.h"
+#include "PauseState.h"
 #include "SetRecordState.h"
 #include "LevelOne.h"
 #include "LevelTwo.h"
@@ -48,6 +49,8 @@ public:
 	static PlayState& getSingleton ();
 	static PlayState* getSingletonPtr ();
 
+	void setNumLives(int numLives);
+
 	// Subestados de PlayState
 	static const int STATE_PLAYING = 0;
 	static const int STATE_END = 1;
@@ -66,10 +69,12 @@ private:
 
 	int _currentLevelNumber;
 	Level* _currentLevel;
+	static int _numLives;
 	Ball* _ball;
 	::Camera* _camera;
 	Hud* _hud;
 	PhysicWorld* _physicWorld;
+
 
 	void createScene();
 	void initializeParamsConf();

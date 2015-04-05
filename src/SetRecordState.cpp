@@ -3,29 +3,37 @@
 template<> SetRecordState* Ogre::Singleton<SetRecordState>::msSingleton = 0;
 SetRecordState::SetRecordState(){
 
-	_initialiced = false;
+	_maxLevel = 0;
+	_time = 0;
+	_initialized = false;
 	_window = 0;
 	_exit = false;
 
 }
 SetRecordState::~SetRecordState(){
+	/*
 	if (_window) {
 		_window->destroy();
 		_window = 0;
 
 	}
+	*/
 }
 
 void
 SetRecordState::enter ()
 {
-	if (!_initialiced) {
+	if (!_initialized) {
 		initialize();
-		_initialiced = true;
+		_initialized = true;
 	}
+
+
+	// Se obtienen del estado LevelCompletedState el maximo nivel alcanzado y el tiempo en completarlo
+	_maxLevel = LevelCompletedState::getSingletonPtr()->getLevelComplete();
+	_time = LevelCompletedState::getSingletonPtr()->getTime();
 	_exit = false;
-	cout << "Se va a establecer el texto" << endl;
-	setText("Set your Nickname.");
+	setText("Level: " + Ogre::StringConverter::toString(_maxLevel) + "\nTime to complete level: " + Ogre::StringConverter::toString(_time) + " seconds\nSet your nickname please.");
 	show();
 }
 
@@ -144,19 +152,24 @@ void SetRecordState::initialize(){
 }
 
 void SetRecordState::show(){
-	_window->show();
-	CEGUI::MouseCursor::getSingleton().show();
+	if (_window){
+		_window->show();
+		CEGUI::MouseCursor::getSingleton().show();
+	}
 
 }
 
 void SetRecordState::hide(){
-	_window->hide();
-	//CEGUI::MouseCursor::getSingleton().hide();
+	if (_window){
+		_window->hide();
+		CEGUI::MouseCursor::getSingleton().hide();
+	}
 }
 
 void SetRecordState::setText(const std::string& text){
-
-	_window->getChild("InputTextWindow/Fondo")->getChild("Text")->setText(text);
+	if (_window){
+		_window->getChild("InputTextWindow/Fondo")->getChild("Text")->setText(text);
+	}
 
 }
 
@@ -164,8 +177,21 @@ void SetRecordState::setText(const std::string& text){
 bool
 SetRecordState::clickButton(const CEGUI::EventArgs &e){
 
-	_exit = true;
+	string nickname = _window->getChild("InputTextWindow/Fondo")->getChild("NameEdit")->getText().c_str();
+
+	if (nickname != "") {
+		Record record;
+		record.setNickname(nickname);
+		record.setLevel(_maxLevel);
+		record.setTime(_time);
+		RecordsManager::getSingletonPtr()->addRecord(record);
+	}
+	gotoToIntroState();
 	return true;
+}
+
+void SetRecordState::gotoToIntroState(){
+	changeState(IntroState::getSingletonPtr());
 }
 
 

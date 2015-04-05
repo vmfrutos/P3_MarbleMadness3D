@@ -14,8 +14,8 @@ LevelCompletedState::~LevelCompletedState(){
 void
 LevelCompletedState::enter ()
 {
-	_modalWindow = new Modalwindow;
-	_modalWindow->setText("Completed level " + Ogre::StringConverter::toString(_levelCompleted) + "\n" + Ogre::StringConverter::toString(_time) + " seconds");
+	_modalWindow = new Modalwindow("modalWindow.layout");
+	_modalWindow->setText("Completed level " + Ogre::StringConverter::toString(_levelCompleted) + "\n" + Ogre::StringConverter::toString(_time) + " seconds\nPress any key");
 	_modalWindow->show();
 }
 

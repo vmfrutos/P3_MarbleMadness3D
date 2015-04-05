@@ -2,6 +2,7 @@
 
 
 template<> PlayState* Ogre::Singleton<PlayState>::msSingleton = 0;
+template<> int PlayState::_numLives;
 
 PlayState::PlayState() {
 	_root = 0;
@@ -88,7 +89,6 @@ PlayState::exit ()
 
 	// Se vacia el scene manager
 	_sceneMgr->clearScene();
-
 
 	if (_root) {
 		if (_sceneMgr) {
@@ -211,7 +211,7 @@ PlayState::keyPressed
 
 	// Tecla p --> PauseState.
 	if (e.key == OIS::KC_P) {
-		//pushState(PauseState::getSingletonPtr());
+		pushState(PauseState::getSingletonPtr());
 	}
 
 	if (e.key == OIS::KC_1) {
@@ -265,6 +265,16 @@ PlayState::keyReleased
 	if (e.key == OIS::KC_RIGHT) {
 		KEY_RIGHT = false;
 	}
+
+	// depuracion
+	if (e.key == OIS::KC_L) {
+		levelCompleted();
+	}
+
+		if (e.key == OIS::KC_D) {
+		dead();
+	}
+
 }
 
 void
@@ -319,6 +329,8 @@ PlayState::createScene(){
 
 	// Se instancia la bola
 	_ball = new Ball("Sphere.mesh","Ball",_currentLevel->getInitPositionBall());
+	cout << "*******************En el hud se establece el numero de vidas a " << StringConverter::toString(_numLives) << endl;;
+	_hud->setNumLives(_numLives);
 	_hud->setLevel(_currentLevelNumber);
 	_hud->resetTime(_currentLevel->getTimeToComplete());
 }
@@ -355,6 +367,7 @@ void
 PlayState::dead(){
 	// Se comprueba si era la última vida
 	bool ultimaVida = _hud->decreaseLive();
+	_numLives--;
 
 	if (ultimaVida){
 		changeState(GameOverState::getSingletonPtr());
@@ -369,4 +382,8 @@ PlayState::levelCompleted(){
 	LevelCompletedState::getSingletonPtr()->setTime(_hud->getElapsedTime());
 	changeState(LevelCompletedState::getSingletonPtr());
 
+}
+
+void PlayState::setNumLives(int numLives){
+	_numLives = numLives;
 }
