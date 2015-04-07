@@ -35,19 +35,24 @@ LevelOne::getLevelNumber() {
 
 void
 LevelOne::setLight(){
-	Ogre::Light* light = _sceneManager->createLight("Light1");
-	light->setDirection(Ogre::Vector3(0.0,80.0,0.0));
-	light->setPosition(0,0,0);
-	light->setType(Ogre::Light::LT_DIRECTIONAL);
-	light->setPowerScale(1.7299998998641968);
-	light->setCastShadows(true);
 
-	Ogre::Light* light2 = _sceneManager->createLight("Light2");
-	light2->setDirection(Ogre::Vector3(-124.08334,74.37983,-74.70168));
-	light2->setPosition(-81.55,50.415,-91.68);
-	light2->setType(Ogre::Light::LT_DIRECTIONAL);
-	light2->setPowerScale(1.7299998998641968);
-	light2->setCastShadows(true);
+	_sceneManager->setShadowTechnique(Ogre::SHADOWTYPE_TEXTURE_MODULATIVE);
+	_sceneManager->setShadowColour(Ogre::ColourValue(0.5, 0.5, 0.5) );
+	_sceneManager->setAmbientLight(Ogre::ColourValue(0.9, 0.9, 0.9));
+	_sceneManager->setShadowTextureCount(1);
+	//_sceneManager->setShadowTextureSize(1024);
+	_sceneManager->setShadowTextureSettings( 256, 1, PF_X8R8G8B8 );
+
+
+	Ogre::Light* light = _sceneManager->createLight("Light1");
+	light->setDirection(-0.056,-0.998,-75.617767);
+	light->setPosition(-38.948658,200,-75.617767);
+	light->setType(Ogre::Light::LT_POINT);
+	light->setPowerScale(1.0);
+	light->setCastShadows(true);
+	light->setShadowNearClipDistance(1);
+	light->setShadowFarClipDistance(180);
+
 }
 
 

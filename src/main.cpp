@@ -10,7 +10,9 @@
 #include "SetRecordState.h"
 #include "IntroState.h"
 #include "PauseState.h"
+#include "RecordsState.h"
 #include "RecordsManager.h"
+#include "CreditsState.h"
 
 
 
@@ -44,7 +46,8 @@ int main () {
 	SetRecordState* setRecordState = new SetRecordState();
 	IntroState* introState = new IntroState();
 	PauseState* pauseState = new PauseState();
-
+	RecordsState* recordsState = new RecordsState();
+	CreditsState* creditsState = new CreditsState();
 
 	UNUSED_VARIABLE(playState);
 	UNUSED_VARIABLE(selectLevelState);
@@ -54,6 +57,8 @@ int main () {
 	UNUSED_VARIABLE(setRecordState);
 	UNUSED_VARIABLE(introState);
 	UNUSED_VARIABLE(pauseState);
+	UNUSED_VARIABLE(recordsState);
+	UNUSED_VARIABLE(creditsState);
 
 	try
 	{

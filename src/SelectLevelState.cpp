@@ -13,6 +13,7 @@ SelectLevelState::~SelectLevelState() {
 }
 
 void SelectLevelState::enter() {
+	cout << "SelectLevelState::enter" << endl;
 	_numberOfLevels = Properties::getSingletonPtr()->getPropertyInt(
 			"game.numberOfLevels");
 

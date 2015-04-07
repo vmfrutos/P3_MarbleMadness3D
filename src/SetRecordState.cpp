@@ -34,6 +34,7 @@ SetRecordState::enter ()
 	_time = LevelCompletedState::getSingletonPtr()->getTime();
 	_exit = false;
 	setText("Level: " + Ogre::StringConverter::toString(_maxLevel) + "\nTime to complete level: " + Ogre::StringConverter::toString(_time) + " seconds\nSet your nickname please.");
+	_window->getChild("InputTextWindow/Fondo")->getChild("NameEdit")->setText("");
 	show();
 }
 
@@ -168,7 +169,7 @@ void SetRecordState::hide(){
 
 void SetRecordState::setText(const std::string& text){
 	if (_window){
-		_window->getChild("InputTextWindow/Fondo")->getChild("Text")->setText(text);
+		_window->getChild("InputTextWindow/Fondo")->getChild("Info")->setText(text);
 	}
 
 }
@@ -185,6 +186,7 @@ SetRecordState::clickButton(const CEGUI::EventArgs &e){
 		record.setLevel(_maxLevel);
 		record.setTime(_time);
 		RecordsManager::getSingletonPtr()->addRecord(record);
+		cout << "Se ha añadido el record de " << nickname << endl;
 	}
 	gotoToIntroState();
 	return true;

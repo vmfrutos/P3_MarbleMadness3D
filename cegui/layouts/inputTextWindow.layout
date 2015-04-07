@@ -8,7 +8,7 @@
 			<Property Name="UnifiedAreaRect" Value="{{0,0},{0,0},{1,0},{1,0}}" />
 			<Property Name="BackgroundEnabled" Value="False" /> 
             <Property Name="FrameEnabled" Value="False" />        	
-			<Window Type="TaharezLook/StaticText" Name="Text" >
+			<Window Type="TaharezLook/StaticText" Name="Info" >
             	<Property Name="UnifiedAreaRect" Value="{{0.04,0},{0.04,0},{0.96,0},{0.50,0}}" />
             	<Property Name="BackgroundEnabled" Value="False" /> 
             	<Property Name="FrameEnabled" Value="False" />

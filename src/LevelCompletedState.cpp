@@ -104,8 +104,8 @@ LevelCompletedState::getName (){
 
 void
 LevelCompletedState::goToSelectLevelState(){
-	_levelCompleted++;
-	SelectLevelState::getSingletonPtr()->setLevel(_levelCompleted);
+	int nextLevel =_levelCompleted + 1;
+	SelectLevelState::getSingletonPtr()->setLevel(nextLevel);
 	changeState(SelectLevelState::getSingletonPtr());
 
 }

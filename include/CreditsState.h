@@ -1,19 +1,18 @@
-#ifndef IntroState_H
-#define IntroState_H
+#ifndef CreditsState_H
+#define CreditsState_H
 
 #include <Ogre.h>
 #include <OIS/OIS.h>
 
 #include "GameState.h"
-#include "PlayState.h"
-#include "RecordsState.h"
-#include "CreditsState.h"
+#include "RecordsManager.h"
+#include "Record.h"
 
-class IntroState : public Ogre::Singleton<IntroState>, public GameState
+class CreditsState : public Ogre::Singleton<CreditsState>, public GameState
 {
 public:
-	IntroState();
-	virtual ~IntroState();
+	CreditsState();
+	virtual ~CreditsState();
 
 	void enter ();
 	void exit ();
@@ -32,21 +31,18 @@ public:
 	bool frameEnded (const Ogre::FrameEvent& evt);
 
 	// Heredados de Ogre::Singleton.
-	static IntroState& getSingleton ();
-	static IntroState* getSingletonPtr ();
+	static CreditsState& getSingleton ();
+	static CreditsState* getSingletonPtr ();
 
 protected:
 
-	bool _exitGame;
 	CEGUI::Window* _window;
+	bool _exitGame;
 
 private:
 	void initialize();
 	void finalize();
-	bool clickPlay(const CEGUI::EventArgs &e);
-	bool clickRecords(const CEGUI::EventArgs &e);
-	bool clickCredits(const CEGUI::EventArgs &e);
-	bool clickExit(const CEGUI::EventArgs &e);
+	bool clickBack(const CEGUI::EventArgs &e);
 
 	bool mouseOutButton(const CEGUI::EventArgs &e);
 	bool mouseInButton(const CEGUI::EventArgs &e);

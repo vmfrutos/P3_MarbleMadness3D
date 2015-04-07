@@ -1,45 +1,24 @@
 #include "IntroState.h"
-#include "PlayState.h"
+
 
 template<> IntroState* Ogre::Singleton<IntroState>::msSingleton = 0;
 
 IntroState::IntroState(){
 	_exitGame = false;
 	_window = 0;
-	_initialized = false;
-
-	_root = 0;
-	_sceneMgr = 0;
-	_viewport = 0;
-	_camera = 0;
 }
 
 IntroState::~IntroState(){
-	if (_window) {
-		_window->destroy();
-	}
+
 }
 
 void
 IntroState::enter ()
 {
 
-	_root = Ogre::Root::getSingletonPtr();
-
-	_sceneMgr = _root->createSceneManager(Ogre::ST_GENERIC, "SceneManager");
-	_camera = _sceneMgr->createCamera("IntroCamera");
-	_viewport = _root->getAutoCreatedWindow()->addViewport(_camera);
-	_viewport->setBackgroundColour(Ogre::ColourValue(1.0, 1.0, 1.0));
-
 	_exitGame = false;
-
-	if (!_initialized) {
-		initialize();
-		_initialized = true;
-	}
-
+	initialize();
 	CEGUI::MouseCursor::getSingleton().show();
-
 	_window->show();
 }
 
@@ -48,28 +27,22 @@ IntroState::exit()
 {
 	CEGUI::MouseCursor::getSingleton().hide();
 	_window->hide();
-
-	// Se vacia el scene manager
-	_sceneMgr->clearScene();
-
-
-	if (_root) {
-		if (_sceneMgr) {
-			_root->destroySceneManager(_sceneMgr);
-		}
-		_root->getAutoCreatedWindow()->removeAllViewports();
-	}
+	finalize();
 
 }
 
 void
 IntroState::pause ()
 {
+	CEGUI::MouseCursor::getSingleton().hide();
+	_window->hide();
 }
 
 void
 IntroState::resume ()
 {
+	CEGUI::MouseCursor::getSingleton().show();
+	_window->show();
 }
 
 bool
@@ -145,7 +118,12 @@ string IntroState::getName (){
 	return "IntroState";
 
 }
-
+void IntroState::finalize(){
+	if (_window) {
+		_window->destroy();
+		_window = 0;
+	}
+}
 void IntroState::initialize(){
 
 	CEGUI::Window* _sheet = CeguiManager::getSheet();
@@ -153,10 +131,26 @@ void IntroState::initialize(){
 	//Se crea el layout
 	_window  = CEGUI::WindowManager::getSingleton().loadWindowLayout("intro.layout");
 
-	_window->getChild("Play")->subscribeEvent(CEGUI::PushButton::EventClicked,CEGUI::Event::Subscriber(&IntroState::clickPlay,this));
-	_window->getChild("Records")->subscribeEvent(CEGUI::PushButton::EventClicked,CEGUI::Event::Subscriber(&IntroState::clickRecords,this));
-	_window->getChild("Credits")->subscribeEvent(CEGUI::PushButton::EventClicked,CEGUI::Event::Subscriber(&IntroState::clickCredits,this));
-	_window->getChild("Exit")->subscribeEvent(CEGUI::PushButton::EventClicked,CEGUI::Event::Subscriber(&IntroState::clickExit,this));
+	CEGUI::ImagesetManager::getSingleton().createFromImageFile("IntroBackGroud", "intro.png");
+
+	// Se estable la imagen
+	_window->getChild("Intro/Fondo")->setProperty("Image", "set:IntroBackGroud image:full_image");
+
+	_window->getChild("Intro/Fondo")->getChild("Play")->subscribeEvent(CEGUI::PushButton::EventClicked,CEGUI::Event::Subscriber(&IntroState::clickPlay,this));
+	_window->getChild("Intro/Fondo")->getChild("Records")->subscribeEvent(CEGUI::PushButton::EventClicked,CEGUI::Event::Subscriber(&IntroState::clickRecords,this));
+	_window->getChild("Intro/Fondo")->getChild("Credits")->subscribeEvent(CEGUI::PushButton::EventClicked,CEGUI::Event::Subscriber(&IntroState::clickCredits,this));
+	_window->getChild("Intro/Fondo")->getChild("Exit")->subscribeEvent(CEGUI::PushButton::EventClicked,CEGUI::Event::Subscriber(&IntroState::clickExit,this));
+
+	_window->getChild("Intro/Fondo")->getChild("Play")->subscribeEvent(CEGUI::PushButton::EventMouseLeavesArea,CEGUI::Event::Subscriber(&IntroState::mouseOutButton,this));
+	_window->getChild("Intro/Fondo")->getChild("Records")->subscribeEvent(CEGUI::PushButton::EventMouseLeavesArea,CEGUI::Event::Subscriber(&IntroState::mouseOutButton,this));
+	_window->getChild("Intro/Fondo")->getChild("Credits")->subscribeEvent(CEGUI::PushButton::EventMouseLeavesArea,CEGUI::Event::Subscriber(&IntroState::mouseOutButton,this));
+	_window->getChild("Intro/Fondo")->getChild("Exit")->subscribeEvent(CEGUI::PushButton::EventMouseLeavesArea,CEGUI::Event::Subscriber(&IntroState::mouseOutButton,this));
+
+	_window->getChild("Intro/Fondo")->getChild("Play")->subscribeEvent(CEGUI::PushButton::EventMouseEntersArea,CEGUI::Event::Subscriber(&IntroState::mouseInButton,this));
+	_window->getChild("Intro/Fondo")->getChild("Records")->subscribeEvent(CEGUI::PushButton::EventMouseEntersArea,CEGUI::Event::Subscriber(&IntroState::mouseInButton,this));
+	_window->getChild("Intro/Fondo")->getChild("Credits")->subscribeEvent(CEGUI::PushButton::EventMouseEntersArea,CEGUI::Event::Subscriber(&IntroState::mouseInButton,this));
+	_window->getChild("Intro/Fondo")->getChild("Exit")->subscribeEvent(CEGUI::PushButton::EventMouseEntersArea,CEGUI::Event::Subscriber(&IntroState::mouseInButton,this));
+
 	_sheet->addChildWindow(_window);
 
 
@@ -176,16 +170,41 @@ IntroState::clickPlay(const CEGUI::EventArgs &e){
 
 bool
 IntroState::clickRecords(const CEGUI::EventArgs &e){
+	pushState(RecordsState::getSingletonPtr());
 	return true;
 }
 
 bool
 IntroState::clickCredits(const CEGUI::EventArgs &e){
+	pushState(CreditsState::getSingletonPtr());
 	return true;
 }
 
 bool
 IntroState::clickExit(const CEGUI::EventArgs &e){
 	_exitGame = true;
+	return true;
+}
+
+bool
+IntroState::mouseInButton(const CEGUI::EventArgs &e){
+
+	const CEGUI::MouseEventArgs& we = static_cast<const CEGUI::MouseEventArgs&>(e);
+	CEGUI::String senderID = we.window->getName();
+
+	_window->getChild("Intro/Fondo")->getChild(senderID)->setAlpha(1.0);
+	return true;
+}
+
+/**
+ * Metodo que se ejecuta cuando el raton se quita de encima de un botón
+ */
+bool
+IntroState::mouseOutButton(const CEGUI::EventArgs &e){
+
+	const CEGUI::MouseEventArgs& we = static_cast<const CEGUI::MouseEventArgs&>(e);
+	CEGUI::String senderID = we.window->getName();
+
+	_window->getChild("Intro/Fondo")->getChild(senderID)->setAlpha(0.4);
 	return true;
 }
