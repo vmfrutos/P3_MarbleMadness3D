@@ -1,0 +1,43 @@
+// BolaAzul genrated by blender2ogre 0.6.0
+
+material BolaAzul 
+{
+    receive_shadows on 
+
+    technique
+    {
+        pass BolaAzul
+        {
+            ambient 1.0 1.0 1.0 1.0
+            diffuse 0.800000011920929 0.800000011920929 0.800000011920929 1.0
+            specular 0.8941043615341187 0.9004181623458862 1.0 1.0 121.5
+            emissive 0.0 0.0 0.0 1.0
+
+            alpha_to_coverage off
+            colour_write on
+            cull_hardware clockwise
+            depth_check on
+            depth_func less_equal
+            depth_write on
+            illumination_stage 
+            light_clip_planes off
+            light_scissor off
+            lighting on
+            normalise_normals off
+            polygon_mode solid
+            scene_blend one zero
+            scene_blend_op add
+            shading gouraud
+            transparent_sorting on
+
+            texture_unit 
+            {
+                texture Blue_Marble.jpg
+                tex_address_mode wrap
+                scale 1.0 1.0
+                tex_coord_set 0
+                colour_op_ex blend_texture_alpha src_texture src_current
+            }
+        }
+    }
+}
