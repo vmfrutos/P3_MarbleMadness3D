@@ -78,7 +78,7 @@ void Hud::update(float delta, float fps){
 		// Sonido de alarma
 	}
 	_timeText->setText(_contador.getContadorMinSecStr());
-	_fpsText->setText(Ogre::StringConverter::toString(fps));
+	_fpsText->setText(Ogre::StringConverter::toString((int)fps));
 }
 
 /**

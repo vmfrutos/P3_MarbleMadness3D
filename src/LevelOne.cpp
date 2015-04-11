@@ -40,8 +40,8 @@ LevelOne::setLight(){
 	_sceneManager->setShadowColour(Ogre::ColourValue(0.5, 0.5, 0.5) );
 	_sceneManager->setAmbientLight(Ogre::ColourValue(0.9, 0.9, 0.9));
 	_sceneManager->setShadowTextureCount(1);
-	//_sceneManager->setShadowTextureSize(1024);
-	_sceneManager->setShadowTextureSettings( 256, 1, PF_X8R8G8B8 );
+	_sceneManager->setShadowTextureSize(2048);
+	//_sceneManager->setShadowTextureSettings( 1024, 1, PF_X8R8G8B8 );
 
 
 	Ogre::Light* light = _sceneManager->createLight("Light1");

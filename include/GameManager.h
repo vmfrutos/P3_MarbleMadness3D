@@ -11,9 +11,13 @@
 #include "InputManager.h"
 #include "ModalWindow.h"
 #include "CeguiManager.h"
+#include "SoundFXManager.h"
+#include "TrackManager.h"
+#include "GameSound.h"
+
 
 class GameState;
-
+class GameSound;
 class GameManager : public Ogre::FrameListener, public Ogre::Singleton<GameManager>, public OIS::KeyListener, public OIS::MouseListener
 {
 public:
@@ -31,6 +35,7 @@ public:
 	// Heredados de Ogre::Singleton.
 	static GameManager& getSingleton ();
 	static GameManager* getSingletonPtr ();
+
 
 protected:
 	Ogre::Root* _root;
@@ -56,11 +61,14 @@ private:
 	bool mouseReleased (const OIS::MouseEvent &e, OIS::MouseButtonID id);
 
 
-
 	// Gestor de eventos de entrada.
 	InputManager *_inputMgr;
 	// Estados del juego.
 	std::stack<GameState*> _states;
+
+
+	bool initSDL();
+
 };
 
 #endif

@@ -17,6 +17,7 @@ GameOverState::enter ()
 	_salir = false;
 	_modalWindow = new Modalwindow("modalWindow.layout");
 	_modalWindow->setText("Game Over.\nPress any key.");
+	GameSound::getSingletonPtr()->playSoundFX(GameSound::FX_GAME_OVER);
 	_modalWindow->show();
 
 	// Se consulta a LevelCompletedState para saber si se ha completado algún nivel y hay que establecer record

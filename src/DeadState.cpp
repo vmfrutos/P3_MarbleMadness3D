@@ -15,7 +15,9 @@ DeadState::enter ()
 {
 	_modalWindow = new Modalwindow("modalWindow.layout");
 	_modalWindow->setText("Try again.\nPress any key to continue.");
+	GameSound::getSingletonPtr()->playSoundFX(GameSound::FX_DEAD);
 	_modalWindow->show();
+
 }
 
 void

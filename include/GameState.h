@@ -3,13 +3,11 @@
 
 #include <Ogre.h>
 #include <OIS/OIS.h>
- 
+
 #include "GameManager.h"
 #include "InputManager.h"
 
-// Clase abstracta de estado básico.
-// Definición base sobre la que extender
-// los estados del juego.
+
 class GameState {
 
  public:

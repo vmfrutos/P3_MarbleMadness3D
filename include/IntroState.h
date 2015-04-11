@@ -50,6 +50,9 @@ private:
 
 	bool mouseOutButton(const CEGUI::EventArgs &e);
 	bool mouseInButton(const CEGUI::EventArgs &e);
+
+	// Sonido
+	TrackPtr _audioIntro;
 };
 
 #endif

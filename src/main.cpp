@@ -1,5 +1,6 @@
 #define UNUSED_VARIABLE(x) (void)x
 
+
 #include "GameManager.h"
 
 #include "PlayState.h"
@@ -13,7 +14,11 @@
 #include "RecordsState.h"
 #include "RecordsManager.h"
 #include "CreditsState.h"
+#include "GameSound.h"
 
+
+//#include <SDL/SDL_mixer.h>
+//#include <SDL/SDL.h>
 
 
 #include <iostream>
@@ -48,6 +53,7 @@ int main () {
 	PauseState* pauseState = new PauseState();
 	RecordsState* recordsState = new RecordsState();
 	CreditsState* creditsState = new CreditsState();
+	GameSound* gameSound = new GameSound();
 
 	UNUSED_VARIABLE(playState);
 	UNUSED_VARIABLE(selectLevelState);
@@ -71,9 +77,13 @@ int main () {
 		std::cerr << "Excepción detectada: " << e.getFullDescription();
 	}
 
+	if (gameSound)
+		delete gameSound;
 	if (game)
 		delete game;
 	if (recordsManager)
 		delete recordsManager;
+
 	return 0;
+
 }

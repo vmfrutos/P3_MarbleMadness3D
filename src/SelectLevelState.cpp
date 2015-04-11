@@ -13,7 +13,6 @@ SelectLevelState::~SelectLevelState() {
 }
 
 void SelectLevelState::enter() {
-	cout << "SelectLevelState::enter" << endl;
 	_numberOfLevels = Properties::getSingletonPtr()->getPropertyInt(
 			"game.numberOfLevels");
 
@@ -28,6 +27,8 @@ void SelectLevelState::enter() {
 		_gameCompleted = false;
 		_modalWindow->setText("Level " + Ogre::StringConverter::toString(_nextLevelNumber) + ".");
 	}
+
+	GameSound::getSingletonPtr()->playSoundFX(GameSound::FX_NEW_LEVEL);
 
 	_modalWindow->show();
 

@@ -29,6 +29,9 @@ LDLIBS += `pkg-config --libs-only-l CEGUI-OGRE`
 LDLIBS += -lGL
 LDLIBS += -lstdc++
 LDLIBS += -lConvexDecomposition
+LDLIBS += -lSDL
+LDLIBS += -lSDL_mixer
+
 
 
 # Modo de compilación (-mode=release -mode=debug) --------------------
@@ -42,12 +45,14 @@ endif
 # Obtención automática de la lista de objetos a compilar -------------
 OBJS := $(subst $(DIRSRC), $(DIROBJ), \
 	$(patsubst %.cpp, %.o, $(wildcard $(DIRSRC)*.cpp)))
+	
 
 .PHONY: all clean
 
 all: info $(EXEC)
 
 info:
+
 	@echo '------------------------------------------------------'
 	@echo '>>> Using mode $(mode)'
 	@echo '    (Please, call "make" with [mode=debug|release])  '
@@ -59,7 +64,7 @@ $(EXEC): $(OBJS)
 
 # Compilación --------------------------------------------------------
 $(DIROBJ)%.o: $(DIRSRC)%.cpp
-	$(CXX) $(CXXFLAGS) -c $< -o $@ $(LDLIBS)
+	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 # Limpieza de temporales ---------------------------------------------
 clean:

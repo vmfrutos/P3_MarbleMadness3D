@@ -186,10 +186,6 @@ RecordsState::cargarRecords(){
 	}
 
 	for (int i=0; i<numItems;i++){
-		cout << "*****************************************" << endl;
-		cout << "Nombre:" << list[i].getNickName() << endl;
-		cout << "Nivel: " << Ogre::StringConverter::toString(list[i].getLevel()) << endl;
-		cout << "Tirmpo: " << list[i].getTimeStr() << endl;
 		_window->getChild("RecordScreen/Fondo")->getChild("Nombre" + Ogre::StringConverter::toString(i+1))->setText(list[i].getNickName());
 		_window->getChild("RecordScreen/Fondo")->getChild("Nivel" + Ogre::StringConverter::toString(i+1))->setText(Ogre::StringConverter::toString(list[i].getLevel()));
 		_window->getChild("RecordScreen/Fondo")->getChild("Tiempo" + Ogre::StringConverter::toString(i+1))->setText(list[i].getTimeStr());

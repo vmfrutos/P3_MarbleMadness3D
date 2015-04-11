@@ -19,6 +19,14 @@ IntroState::enter ()
 	_exitGame = false;
 	initialize();
 	CEGUI::MouseCursor::getSingleton().show();
+
+	// Se carga la pista de audio
+	cout << "Se va a cargar el audio" << endl;
+	_audioIntro = GameSound::getSingletonPtr()->loadTrack("snowfall-final.mp3");
+
+	// Se pone en modo loop
+	_audioIntro->play(true);
+
 	_window->show();
 }
 
@@ -27,6 +35,9 @@ IntroState::exit()
 {
 	CEGUI::MouseCursor::getSingleton().hide();
 	_window->hide();
+
+	// Se detiene la pista de audio
+	_audioIntro->stop();
 	finalize();
 
 }
