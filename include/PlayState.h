@@ -68,7 +68,10 @@ private:
 
 	int _currentLevelNumber;
 	Level* _currentLevel;
+
 	static int _numLives;
+
+
 	Ball* _ball;
 	::Camera* _camera;
 	Hud* _hud;

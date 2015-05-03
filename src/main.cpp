@@ -25,7 +25,7 @@
 
 using namespace std;
 
-int main () {
+int main (int argc, char**argv) {
 
 	// Se inicializa la clase Properties que tiene los parámetros de configuración
 	new Properties;

@@ -1,6 +1,6 @@
 #include "Hud.h"
 
-template<> int Hud::_numLives;
+int Hud::_numLives;
 Hud::Hud(){
 	_hud = 0;
 

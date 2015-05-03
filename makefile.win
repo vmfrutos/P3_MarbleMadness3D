@@ -1,0 +1,56 @@
+EXEC := ./MarbleMadness.exe
+
+DIRSRC := ./src/
+DIROBJ := ./obj/
+DIRHEA := ./include/
+DIROGRE := D:/Sofware/OgreSDK_v1-8-1/
+DIRCEGUI := D:/Sofware/CEGUI-0.7.9/cegui/
+DIRBOOST := $(DIROGRE)boost
+DIRSDL := D:/Sofware/SDL/SDL-1.2.15/
+DIRSDLMIXER := D:/Sofware/SDL/SDL_mixer-1.2.12/
+DIRBULLET := D:/Sofware/BULLET_PHYSICS_MinGW-2.83_BUILD_32/
+DIROGREBULLET := D:/Sofware/OgreBullet_BUILD/
+
+CXX := g++
+
+CXXFLAGS := -I $(DIRHEA) -Wall -std=c++11 -DWIN32 -D_WINDOWS -mthreads
+CXXFLAGS += -I $(DIROGRE)include/OGRE/
+CXXFLAGS += -I $(DIROGRE)include/
+CXXFLAGS += -I $(DIROGRE)include/OIS/ 
+CXXFLAGS += -I $(DIRBOOST)/
+CXXFLAGS += -I $(DIRCEGUI)include/
+CXXFLAGS += -I $(DIRSDL)include/
+CXXFLAGS += -I $(DIRSDL)include/SDL/
+CXXFLAGS += -I $(DIRSDLMIXER)include/
+CXXFLAGS += -I $(DIRSDLMIXER)include/SDL/
+CXXFLAGS += -I $(DIRBULLET)include/bullet/
+CXXFLAGS += -I $(DIROGREBULLET)include/Collisions
+CXXFLAGS += -I $(DIROGREBULLET)include/Dynamics
+
+LDFLAGS := -L $(DIROGRE)lib/release -L $(DIRCEGUI)/../lib -L $(DIRBOOST)/lib -L $(DIRSDL)lib -L $(DIRSDLMIXER)lib -L$(DIRBULLET)lib -L$(DIROGREBULLET)lib
+LDFLAGS += -lOgreBulletCol -lOgreBulletDyn -lConvexDecomposition -mthreads -lOgreMain -lOIS -lstdc++ -lCEGUIBase -lCEGUIOgreRenderer -lboost_system-mgw47-mt-1_51  -lmingw32 -lSDLmain -lSDL -mwindows -lSDL_mixer -lBulletSoftBody -lBulletDynamics -lBulletCollision -lLinearMath 
+
+
+
+OBJS := $(subst $(DIRSRC), $(DIROBJ), $(patsubst %.cpp, %.o,$(wildcard $(DIRSRC)*.cpp)))
+
+ifeq ($(mode), release) 
+	CXXFLAGS := $(CXXFLAGS) -O2
+else
+	CXXFLAGS := $(CXXFLAGS) -ggdb
+endif
+
+
+
+
+
+all:	$(EXEC)
+
+$(EXEC):	$(OBJS)
+	$(CXX) -o $@ $^ $(LDLIBS) $(LDFLAGS)
+
+$(DIROBJ)%.o:	$(DIRSRC)%.cpp
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+	
+clean:
+	$(RM) $(DIROBJ)* ./$(EXEC)

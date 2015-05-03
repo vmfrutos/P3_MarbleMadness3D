@@ -2,7 +2,7 @@
 
 
 template<> PlayState* Ogre::Singleton<PlayState>::msSingleton = 0;
-template<> int PlayState::_numLives;
+int PlayState::_numLives;
 
 PlayState::PlayState() {
 	_root = 0;

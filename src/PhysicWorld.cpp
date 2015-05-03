@@ -1,16 +1,16 @@
 #include "PhysicWorld.h"
 
 // Variables staticas que pueden usar los herederos de PhysicWorld
-template<> SceneManager* PhysicWorld::_sceneManager;
-template<> std::deque <OgreBulletDynamics::RigidBody *> PhysicWorld::_bodies;
-template<> std::deque <OgreBulletCollisions::CollisionShape *> PhysicWorld::_shapes;
-template<> OgreBulletDynamics::DynamicsWorld * PhysicWorld::_world;
-template<> OgreBulletCollisions::DebugDrawer * PhysicWorld::_debugDrawer;
+SceneManager* PhysicWorld::_sceneManager;
+std::deque <OgreBulletDynamics::RigidBody *> PhysicWorld::_bodies;
+std::deque <OgreBulletCollisions::CollisionShape *> PhysicWorld::_shapes;
+OgreBulletDynamics::DynamicsWorld * PhysicWorld::_world;
+OgreBulletCollisions::DebugDrawer * PhysicWorld::_debugDrawer;
 
 // Variables staticas que no pueden usar los herederos de PhysicWorld
-template<> float PhysicWorld::_gravity;
-template<> Vector3 PhysicWorld::_wordlBounds;
-template<> bool PhysicWorld::_setDebugDrawer;
+float PhysicWorld::_gravity;
+Vector3 PhysicWorld::_wordlBounds;
+bool PhysicWorld::_setDebugDrawer;
 
 
 PhysicWorld::PhysicWorld() {

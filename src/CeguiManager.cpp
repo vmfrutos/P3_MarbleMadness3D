@@ -1,6 +1,6 @@
 #include  "CeguiManager.h"
 
-template<> CEGUI::Window* CeguiManager::_sheet;
+CEGUI::Window* CeguiManager::_sheet;
 
 void
 CeguiManager::initialize(){
