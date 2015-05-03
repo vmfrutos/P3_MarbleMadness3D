@@ -15,6 +15,8 @@
 #include "Ball.h"
 #include "Camera.h"
 #include "Hud.h"
+#include "Enemy.h"
+#include "Lanzadera.h"
 
 
 class PlayState : public Ogre::Singleton<PlayState>, public GameState
@@ -51,11 +53,8 @@ public:
 
 	void setNumLives(int numLives);
 
-	// Subestados de PlayState
-	static const int STATE_PLAYING = 0;
-	static const int STATE_END = 1;
-	static const int STATE_EXIT = 2;
-	static const int STATE_LEVEL_COMPLETED = 3;
+	void setCameraFarView(bool value);
+	bool getCameraFarView(){return _cameraFarView;};
 
 
 private:
@@ -91,6 +90,14 @@ private:
 	bool KEY_DOWN;
 	bool KEY_RIGHT;
 	bool KEY_LEFT;
+
+	// Modo de vision de la camara
+	bool _cameraFarView;
+
+	bool _infitiLives;
+
+	// Sonido
+	TrackPtr _lava;
 
 };
 

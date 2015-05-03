@@ -29,6 +29,8 @@ void Level::printConf() {
 	Ogre::LogManager::getSingletonPtr()->logMessage("***************************************");
 }
 
+
+/*
 SceneNode*
 Level::addTriangleMeshCollisionShape(
 		const string& mesh,
@@ -92,3 +94,5 @@ Level::colisionNodes(SceneNode* node1, SceneNode* node2){
 	}
 	return false;
 }
+
+*/

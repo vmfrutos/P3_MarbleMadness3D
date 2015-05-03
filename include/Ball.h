@@ -2,6 +2,7 @@
 #define __BALL_H__
 
 #include "PhysicWorld.h"
+#include "GameSound.h"
 
 class Ball : public PhysicWorld {
 public:
@@ -11,6 +12,10 @@ public:
 	const Vector3& getPosition();
 	SceneNode* getSceneNode();
 	void resetBall(Vector3 pos);
+
+	void shoot(Vector3 direcction,int power);
+	//void setShootMode(bool value){_shootMode = value;};
+	//bool getShootMode(){return _shootMode;};
 
 private:
 
@@ -25,6 +30,7 @@ private:
 	float _mass;
 	float _diameter;
 	float _impulseForce;
+
 
 
 	void initializeParamsConf();

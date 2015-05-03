@@ -2,7 +2,7 @@
 #define __LEVEL_H__
 
 #include "PhysicWorld.h"
-
+#include <OIS/OIS.h>
 using namespace Ogre;
 
 class Level : public PhysicWorld{
@@ -18,12 +18,16 @@ public:
 	virtual bool isLevelCompleted(SceneNode* ball) = 0;
 	virtual Vector3 getInitPositionBall() = 0;
 	virtual float getTimeToComplete() = 0;
+	virtual void update(float delta) = 0;
+	virtual void keyPressed(enum OIS::KeyCode key) = 0;
+	virtual void keyReleased(enum OIS::KeyCode key) = 0;
 
 
 
 
 protected:
 
+	/*
 	bool colisionNodes(SceneNode* node1, SceneNode* node2);
 	SceneNode* addTriangleMeshCollisionShape(
 				const string& mesh,
@@ -33,6 +37,7 @@ protected:
 				const float restitution,
 				const float friction,
 				const float mass);
+	*/
 
 	// Parametros configurables
 	float _restitution;

@@ -16,16 +16,16 @@ LevelTwo::initializeLevel(const string& levelMesh, const string& levelName){
 	// Se ponen las luces
 	setLight();
 	// Se crea el suelo
-	_groundNode = addTriangleMeshCollisionShape("Ground.mesh","Ground",Vector3::ZERO, Quaternion::IDENTITY,0.8, 0.6, 0);
+	_groundNode = addTriangleMeshCollisionShape("Ground.mesh","Ground",Vector3::ZERO, Quaternion::IDENTITY,0.8, 0.6, 0,_sceneManager->getRootSceneNode());
 
 	// Se añade el nivel
-	addTriangleMeshCollisionShape(levelMesh, levelName,Vector3::ZERO, Quaternion::IDENTITY,0.8, 0.6, 0);
+	addTriangleMeshCollisionShape(levelMesh, levelName,Vector3::ZERO, Quaternion::IDENTITY,0.8, 0.6, 0,_sceneManager->getRootSceneNode());
 
 	// Se añade el goal
-	_goalNode = addTriangleMeshCollisionShape("Goal.mesh", "Goal",Vector3(9.43009,40.015583,-90.266342), Quaternion::IDENTITY,0.8, 0.6, 0);
+	_goalNode = addTriangleMeshCollisionShape("Goal.mesh", "Goal",Vector3(9.43009,40.015583,-90.266342), Quaternion::IDENTITY,0.8, 0.6, 0,_sceneManager->getRootSceneNode());
 
 	// Se añade la lava
-	_lavaNode = addTriangleMeshCollisionShape("Lava.mesh","Lava",Vector3::ZERO, Quaternion::IDENTITY,0.8, 0.6, 0);
+	_lavaNode = addTriangleMeshCollisionShape("Lava.mesh","Lava",Vector3::ZERO, Quaternion::IDENTITY,0.8, 0.6, 0,_sceneManager->getRootSceneNode());
 }
 
 int
@@ -87,4 +87,18 @@ LevelTwo::printConf() {
 	Ogre::LogManager::getSingletonPtr()->logMessage("level2.ballPosition: " + StringConverter::toString(_initPositionBall));
 	Ogre::LogManager::getSingletonPtr()->logMessage("level2.timeToComplete: " + StringConverter::toString(_timeToComplete));
 	Ogre::LogManager::getSingletonPtr()->logMessage("***************************************");
+}
+
+void
+LevelTwo::update(float delta){
+
+}
+
+void
+LevelTwo::keyPressed(enum OIS::KeyCode key){
+
+}
+
+void LevelTwo::keyReleased(enum OIS::KeyCode key){
+
 }

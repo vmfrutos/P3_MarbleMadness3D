@@ -60,6 +60,21 @@ SoundFX::play
   return channel;
 }
 
+void
+SoundFX::stop
+(int channel)
+{
+  Ogre::LogManager* pLogManager = Ogre::LogManager::getSingletonPtr();
+
+  if ((channel = Mix_HaltChannel(channel)) == -1) {
+    pLogManager->logMessage("SoundFX::stop() Imposible detener el canal " + channel);
+    pLogManager->logMessage(Mix_GetError());
+    throw (Ogre::Exception(Ogre::Exception::ERR_INTERNAL_ERROR,
+    			"Imposible detener el canal " + channel,
+			    "SoundFX::stop()"));
+  }
+}
+
 bool
 SoundFX::isPlaying
 (int channel)

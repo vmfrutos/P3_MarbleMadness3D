@@ -16,11 +16,14 @@ PlayState::PlayState() {
 	_hud=0;
 	_currentLevelNumber = 0;
 	_physicWorld = 0;
+	_cameraFarView = false;
+	_infitiLives = Properties::getSingletonPtr()->getPropertyBool("game.infiniteLives");;
 
 	KEY_UP = false;
 	KEY_DOWN = false;
 	KEY_RIGHT = false;
 	KEY_LEFT = false;
+
 }
 
 PlayState::~PlayState() {
@@ -50,6 +53,11 @@ PlayState::enter ()
 
 	_physicWorld = new PhysicWorld();
 
+	_lava = GameSound::getSingletonPtr()->loadTrack("lava.wav");
+
+	// Sonido de lava
+	_lava->play(true);
+
 	// Se inicia una nueva partida
 	startGame();
 
@@ -58,6 +66,8 @@ PlayState::enter ()
 void
 PlayState::exit ()
 {
+	_lava->stop();
+
 	KEY_UP = false;
 	KEY_DOWN = false;
 	KEY_RIGHT = false;
@@ -106,11 +116,15 @@ PlayState::pause()
 	KEY_DOWN = false;
 	KEY_RIGHT = false;
 	KEY_LEFT = false;
+
+	_lava->stop();
+
 }
 
 void
 PlayState::resume()
 {
+	_lava->play(true);
 
 }
 
@@ -176,12 +190,23 @@ PlayState::frameStarted
 
 
 	// Se actualiza la camara en función de la posición de la bola
-	_camera->updateCamera(_ball->getPosition());
+	if (_cameraFarView){
+		_camera->updateCameraFarView(_ball->getPosition());
+	} else {
+		_camera->updateCamera(_ball->getPosition());
+	}
 
 
 
 	// Se actualiza el hud
 	_hud->update(deltaT,fps);
+
+	_currentLevel->update(deltaT);
+
+	// FOR DEBUG
+	//_hud->setInfo(StringConverter::toString(_ball->getPosition()));
+
+
 
 	return true;
 
@@ -215,6 +240,7 @@ PlayState::keyPressed
 	}
 
 	if (e.key == OIS::KC_1) {
+		cout << "Se pone el modo debug de bullet" << endl;
 		_physicWorld->showDebugShapes(true);
 	}
 
@@ -238,8 +264,16 @@ PlayState::keyPressed
 		KEY_RIGHT = true;
 	}
 
+	if (e.key == OIS::KC_G){
 
+		if (_cameraFarView){
+			PlayState::getSingletonPtr()->setCameraFarView(false);
+		} else {
+			PlayState::getSingletonPtr()->setCameraFarView(true);
+		}
+	}
 
+	_currentLevel->keyPressed(e.key);
 }
 
 void
@@ -271,9 +305,11 @@ PlayState::keyReleased
 		levelCompleted();
 	}
 
-		if (e.key == OIS::KC_D) {
+	if (e.key == OIS::KC_D) {
 		dead();
 	}
+
+	_currentLevel->keyReleased(e.key);
 
 }
 
@@ -321,6 +357,8 @@ PlayState::createScene(){
 
 		// Se instancia el nivel correspondiente
 		_currentLevel = new LevelOne("Level1.mesh","Level1");
+
+
 	} else if (_currentLevelNumber == 2) {
 
 		// Se instancia el nivel correspondiente
@@ -329,7 +367,6 @@ PlayState::createScene(){
 
 	// Se instancia la bola
 	_ball = new Ball("Sphere.mesh","Ball",_currentLevel->getInitPositionBall());
-	cout << "*******************En el hud se establece el numero de vidas a " << StringConverter::toString(_numLives) << endl;;
 	_hud->setNumLives(_numLives);
 	_hud->setLevel(_currentLevelNumber);
 	_hud->resetTime(_currentLevel->getTimeToComplete());
@@ -365,9 +402,15 @@ PlayState::startGame(){
 
 void
 PlayState::dead(){
-	// Se comprueba si era la última vida
-	bool ultimaVida = _hud->decreaseLive();
-	_numLives--;
+	bool ultimaVida = false;
+
+	if (!_infitiLives){
+		// Se comprueba si era la última vida
+		ultimaVida = _hud->decreaseLive();
+		_numLives--;
+	}
+
+
 
 	if (ultimaVida){
 		changeState(GameOverState::getSingletonPtr());
@@ -386,4 +429,9 @@ PlayState::levelCompleted(){
 
 void PlayState::setNumLives(int numLives){
 	_numLives = numLives;
+}
+
+void
+PlayState::setCameraFarView(bool value){
+	_cameraFarView = value;
 }

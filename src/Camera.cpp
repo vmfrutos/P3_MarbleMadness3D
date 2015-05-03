@@ -26,6 +26,12 @@ Camera::updateCamera(Ogre::Vector3 ballPosition){
 }
 
 void
+Camera::updateCameraFarView(Ogre::Vector3 ballPosition){
+	_camera->setPosition(ballPosition.x,(ballPosition.y + 60),ballPosition.z-45);
+	_camera->lookAt(ballPosition);
+}
+
+void
 Camera::initializeParamsConf() {
 	_distanceBallY = Properties::getSingletonPtr()->getPropertyFloat("camera.distanceBall.y");
 	_distanceBallZ = Properties::getSingletonPtr()->getPropertyFloat("camera.distanceBall.z");

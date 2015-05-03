@@ -11,6 +11,7 @@ public:
 	~Camera();
 	Ogre::Camera* getOgreCamera();
 	void updateCamera(Ogre::Vector3 ballPosition);
+	void updateCameraFarView(Ogre::Vector3 ballPosition);
 
 private:
 	Ogre::Camera* _camera;

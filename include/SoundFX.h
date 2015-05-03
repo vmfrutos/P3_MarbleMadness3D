@@ -21,6 +21,7 @@ class SoundFX: public Ogre::Resource {
 
   int play(int loop = 0);
   int play(int channel, int loop);
+  void stop (int channel);
   bool isPlaying (int channel);
         
  protected:

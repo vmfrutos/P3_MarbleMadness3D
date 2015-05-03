@@ -51,16 +51,6 @@ void Hud::initialize(){
 	_timeText =_hud->getChild("Hud/Fondo")->getChild("TimeBox")->getChild("TimeText");
 	_fpsText =_hud->getChild("Hud/Fondo")->getChild("FpsBox")->getChild("FpsText");
 
-	/*
-	if (_numLives == 2){
-		_hud->getChild("Hud/Fondo")->getChild("Live3")->hide();
-
-	} else if (_numLives == 1){
-		_hud->getChild("Hud/Fondo")->getChild("Live2")->hide();
-
-	}
-	*/
-
 }
 
 void Hud::update(float delta, float fps){
@@ -76,7 +66,17 @@ void Hud::update(float delta, float fps){
 		}
 
 		// Sonido de alarma
+		GameSound::getSingletonPtr()->playSoundFX(GameSound::FX_ALARM);
 	}
+
+	if (currentSecond == 0){
+
+		// Si esta sonando la alarma se quita
+		if (GameSound::getSingletonPtr()->isPlayingSoundFX(GameSound::FX_ALARM)){
+			GameSound::getSingletonPtr()->stopSoundFX(GameSound::FX_ALARM);
+		}
+	}
+
 	_timeText->setText(_contador.getContadorMinSecStr());
 	_fpsText->setText(Ogre::StringConverter::toString((int)fps));
 }

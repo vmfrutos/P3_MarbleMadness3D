@@ -14,7 +14,9 @@ private:
 	void initializeLevel(const string& groundMesh, const string& groundName);
 	int getLevelNumber();
 	void setLight();
-
+	void update(float delta);
+	void keyPressed(enum OIS::KeyCode key);
+	void keyReleased(enum OIS::KeyCode key);
 
 	// Funciones virtuales implementadas en el nivel
 	bool isEndOfLive(SceneNode* ball);

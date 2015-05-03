@@ -13,8 +13,7 @@ SelectLevelState::~SelectLevelState() {
 }
 
 void SelectLevelState::enter() {
-	_numberOfLevels = Properties::getSingletonPtr()->getPropertyInt(
-			"game.numberOfLevels");
+	_numberOfLevels = Properties::getSingletonPtr()->getPropertyInt("game.numberOfLevels");
 
 	_modalWindow = new Modalwindow("modalWindowFull.layout");
 	_contador.reset();

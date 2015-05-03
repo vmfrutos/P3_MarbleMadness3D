@@ -11,6 +11,9 @@
 #include "Shapes/OgreBulletCollisionsTrimeshShape.h"
 #include "Shapes/OgreBulletCollisionsSphereShape.h"
 #include "Shapes/OgreBulletCollisionsConvexHullShape.h"
+#include "Shapes/OgreBulletCollisionsGImpactShape.h"
+#include "Shapes/OgreBulletCollisionsConeShape.h"
+#include "Shapes/OgreBulletCollisionsCylinderShape.h"
 #include "OgreBulletDynamicsWorld.h"
 #include "OgreBulletDynamicsRigidBody.h"
 #include "Debug/OgreBulletCollisionsDebugDrawer.h"
@@ -45,6 +48,45 @@ public:
 	void deleteDeques();
 	void showDebugShapes(bool value);
 	void stepSimulation(float elapsedTime, int maxSubSteps = 1);
+
+	bool colisionNodes(SceneNode* node1, SceneNode* node2);
+	SceneNode* addTriangleMeshCollisionShape(
+				const string& mesh,
+				const string& name,
+				const Vector3& pos,
+				const Quaternion& orientation,
+				const float restitution,
+				const float friction,
+				const float mass,
+				SceneNode* parent);
+
+	SceneNode* addConvexHullCollisionShape(
+				const string& mesh,
+				const string& name,
+				const Vector3& pos,
+				const Quaternion& orientation,
+				const float restitution,
+				const float friction,
+				const float mass,
+				SceneNode* parent);
+
+	SceneNode* addRigidBody(
+			OgreBulletCollisions::CollisionShape* collisionShape,
+			const string& mesh,
+			const string& name,
+			const Vector3& pos,
+			const Quaternion& orientation,
+			const float restitution,
+			const float friction,
+			const float mass,
+			SceneNode* parent);
+
+	SceneNode* addStaticPlane(
+			const string& name,
+			const Quaternion& orientation,
+			const Vector3& pos,
+			const float sizeX,
+			const float sizeY);
 
 private:
 	static float _gravity;

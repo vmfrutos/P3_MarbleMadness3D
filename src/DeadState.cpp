@@ -13,6 +13,14 @@ DeadState::~DeadState(){
 void
 DeadState::enter ()
 {
+	Ball* _ball = PlayState::getSingletonPtr()->getBall();
+	Level* _currentLevel = PlayState::getSingletonPtr()->getCurrentLevel();
+	Hud* _hud = PlayState::getSingletonPtr()->getHud();
+
+	// Se resetean la bola y el hud
+	_ball->resetBall(_currentLevel->getInitPositionBall());
+	_hud->resetTime(_currentLevel->getTimeToComplete());
+
 	_modalWindow = new Modalwindow("modalWindow.layout");
 	_modalWindow->setText("Try again.\nPress any key to continue.");
 	GameSound::getSingletonPtr()->playSoundFX(GameSound::FX_DEAD);
@@ -60,6 +68,7 @@ DeadState::keyPressed
 	// Si se pulsa cualquier tecla se resetea la bola  vuelve al estado anterior (PlayState)
 
 	// Se posiciona la bola en el punto inicial
+	/*
 	Ball* _ball = PlayState::getSingletonPtr()->getBall();
 	Level* _currentLevel = PlayState::getSingletonPtr()->getCurrentLevel();
 	Hud* _hud = PlayState::getSingletonPtr()->getHud();
@@ -67,6 +76,7 @@ DeadState::keyPressed
 	// Se resetean la bola y el hud
 	_ball->resetBall(_currentLevel->getInitPositionBall());
 	_hud->resetTime(_currentLevel->getTimeToComplete());
+	*/
 	popState();
 
 }

@@ -4,6 +4,7 @@
 #include "Contador.h"
 #include "Properties.h"
 #include "CeguiManager.h"
+#include "GameSound.h"
 #include <CEGUI.h>
 
 class Hud {

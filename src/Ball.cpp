@@ -5,7 +5,7 @@ Ball::Ball(const string& ballMesh, const string& ballName, Vector3 initPos):Phys
 	_ballEnt = NULL;
 	initializeParamsConf();
 	printConf();
-	initializeBall(ballMesh,ballMesh,initPos);
+	initializeBall(ballMesh,ballName,initPos);
 
 
 }
@@ -86,13 +86,25 @@ Ball::resetBall(Vector3 pos){
 	_rigidBall->getBulletRigidBody()->setLinearVelocity(zeroVector);
 	_rigidBall->getBulletRigidBody()->setAngularVelocity(zeroVector);
 	_rigidBall->getBulletRigidBody()->getWorldTransform().setOrigin(newPosVector);
-	_ballNode->translate(pos);
+	_ballNode->setPosition(pos);
 	_world->getBulletDynamicsWorld()->addRigidBody(_rigidBall->getBulletRigidBody());
+
+
+
 
 }
 
 SceneNode*
 Ball::getSceneNode(){
 	return _ballNode;
+
+}
+
+void
+Ball::shoot(Vector3 direction,int power){
+	Vector3 posicion(0.0,0.0,0.0);
+	_rigidBall->enableActiveState();
+	_rigidBall->applyImpulse(direction * power,posicion);
+	GameSound::getSingletonPtr()->playSoundFX(GameSound::FX_SHOOT);
 
 }
